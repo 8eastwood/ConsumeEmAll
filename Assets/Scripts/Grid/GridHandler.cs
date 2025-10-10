@@ -7,7 +7,6 @@ public class GridHandler : MonoBehaviour
     [SerializeField] private Vector2Int _gridSize;
     [SerializeField] private Vector2 _cellSize;
     
-    [SerializeField] private GameObject _draggableObject;
     [SerializeField] private InputReader _inputReader;
     
     private Plane _plane;
@@ -36,30 +35,6 @@ public class GridHandler : MonoBehaviour
         position.y = Mathf.FloorToInt(hitPoint.z / _cellSize.y);
         Debug.Log(position);
 
-        // return true;
         return position.x >= 0 && position.x < _gridSize.x && position.y >= 0 && position.y < _gridSize.y;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Vector3 totalGridSize = new Vector3(_gridSize.x * _cellSize.x, 0.1f, _gridSize.y * _cellSize.y);
-        Gizmos.DrawWireCube(_draggableObject.transform.position, new Vector3 (_cellSize.x,  0.1f, _cellSize.y));
-    
-        // Gizmos.color = Color.cyan * 0.7f;
-        //
-        // for (int x = 1; x < _gridSize.x; x++)
-        // {
-        //     Vector3 start = new Vector3(x * _cellSize.x, 0, 0);
-        //     Vector3 end = new Vector3(x * _cellSize.x, 0, totalGridSize.z);
-        //     Gizmos.DrawLine(start, end);
-        // }
-        //
-        // for (int y = 1; y < _gridSize.y; y++)
-        // {
-        //     Vector3 start = new Vector3(0, 0, y * _cellSize.y);
-        //     Vector3 end = new Vector3(totalGridSize.x, 0, y * _cellSize.y);
-        //     Gizmos.DrawLine(start, end);
-        // }
     }
 }

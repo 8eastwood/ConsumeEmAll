@@ -10,6 +10,7 @@ public class Dragger : MonoBehaviour
 
     private GameObject _selectedObject;
     private int _draggableLayerMask = 1 << 3;
+    private Vector3 _dragOffset;
 
     private void Update()
     {
@@ -40,6 +41,8 @@ public class Dragger : MonoBehaviour
         if (hit.collider != null && IsOnDragLayer(hit.collider.gameObject))
         {
             _selectedObject = hit.collider.gameObject;
+            // Vector3 mouseWorldPos = GetMouseWorldPosition();
+            // _dragOffset = _selectedObject.transform.position - mouseWorldPos;
           
             // Cursor.visible = false;
         }
@@ -56,22 +59,25 @@ public class Dragger : MonoBehaviour
     {
         if (_gridHandler.TryGetPosition(out Vector2 position))
         {
-            _selectedObject.transform.position = new Vector3(position.x + _gridHandler.CellSize.x / 2, 0,
-                position.y + _gridHandler.CellSize.y / 2);
-            
+            _selectedObject.transform.position = new Vector3(position.x , 0,
+                position.y );
+
             _selectedObject.transform.position += _gridPivot.position;
         }
     }
 
-    private Vector3 GetMouseWorldPosition()
-    {
-        Vector3 screenPosition = new Vector3(
-            _inputReader.MouseScreenPosition.x,
-            _inputReader.MouseScreenPosition.y,
-            _mainCamera.WorldToScreenPoint(_selectedObject.transform.position).z);
-
-        return _mainCamera.ScreenToWorldPoint(screenPosition);
-    }
+    // private Vector3 GetMouseWorldPosition()
+    // {
+    //     Ray ray = _mainCamera.ScreenPointToRay(_inputReader.MouseScreenPosition);
+    //     Plane plane = new Plane(Vector3.up, _gridPivot.position);
+    //     
+    //     if (plane.Raycast(ray, out float distance))
+    //     {
+    //         return ray.GetPoint(distance);
+    //     }
+    //     
+    //     return _selectedObject.transform.position;
+    // }
 
     private RaycastHit CastRay()
     {
