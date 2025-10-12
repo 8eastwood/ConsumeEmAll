@@ -12,7 +12,7 @@ public class GridHandler : MonoBehaviour
     private Plane _plane;
     private Camera _camera;
 
-    public Vector2 CellSize => _cellSize;
+    // public Vector2 CellSize => _cellSize;
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class GridHandler : MonoBehaviour
         hitPoint -= _gridPivot.position;
         position.x = Mathf.FloorToInt(hitPoint.x / _cellSize.x);
         position.y = Mathf.FloorToInt(hitPoint.z / _cellSize.y);
-        Debug.Log(position);
+        // Debug.Log(position);
 
         return position.x >= 0 && position.x < _gridSize.x && position.y >= 0 && position.y < _gridSize.y;
     }
