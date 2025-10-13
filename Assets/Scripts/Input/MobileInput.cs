@@ -1,61 +1,20 @@
 using UnityEngine;
-using UnityEngine.EventSystems;     
+using UnityEngine.EventSystems;
 
 public class MobileInput : MonoBehaviour, IInput
 {
-    public Vector3 ScreenPosition
-    {
-        get
-        {
-            if (Input.touchCount > 0)
-            {
-                return Input.GetTouch(0).position;
-            }
+    public Vector3 ScreenPosition => Input.GetTouch(0).position;
 
-            return Vector3.zero;
-        }
-    }
+    public bool IsPointerDown => Input.touchCount > 0 &&
+                                 Input.GetTouch(0).phase == TouchPhase.Began;
 
-    public bool IsPointerDown
-    {
-        get
-        {
-            if (Input.touchCount > 0)
-            {
-                return Input.GetTouch(0).phase == TouchPhase.Began;
-            }
+    public bool IsPointerHeld => Input.touchCount > 0 &&
+                                 Input.GetTouch(0).phase == TouchPhase.Stationary ||
+                                 Input.GetTouch(0).phase == TouchPhase.Moved;
 
-            return false;
-        }
-    }
+    public bool IsPointerUp => Input.touchCount > 0 &&
+                               Input.GetTouch(0).phase == TouchPhase.Ended;
 
-    public bool IsPointerHeld
-    {
-        get
-        {
-            if (Input.touchCount > 0)
-            {
-                var phase = Input.GetTouch(0).phase;
-
-                return phase == TouchPhase.Stationary || phase == TouchPhase.Moved;
-            }
-
-            return false;
-        }
-    }
-
-    public bool IsPointerUp
-    {
-        get
-        {
-            if (Input.touchCount > 0)
-            {
-                return Input.GetTouch(0).phase == TouchPhase.Ended;
-            }
-
-            return false;
-        }
-    }
 
     // public bool IsPointerOverUI
     // {

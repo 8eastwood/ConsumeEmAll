@@ -9,16 +9,10 @@ public class GridHandler : MonoBehaviour
     [SerializeField] private Vector2Int _gridSize;
     [SerializeField] private Vector2 _cellSize;
     
+    [SerializeField] private DesktopInput _desktopInput;
     
-    private DesktopInput _desktopInput;
     private Camera _camera;
     private Plane _plane;
-
-    [Inject]
-    private void Initialize(DesktopInput desktopInput)
-    {
-        _desktopInput = desktopInput;
-    }
 
     private void Awake()
     {

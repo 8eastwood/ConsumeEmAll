@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.Serialization;
+using Zenject;
 
 public class Dragger : MonoBehaviour
 {
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private GridHandler _gridHandler;
-    [SerializeField] private DesktopInput _desktopInput;
-
     [SerializeField] private Transform _gridPivot;
+
+    [SerializeField] private DesktopInput _desktopInput;
 
     private GameObject _selectedObject;
     private int _draggableLayerMask = 1 << 3;
@@ -20,19 +20,14 @@ public class Dragger : MonoBehaviour
 
         if (_selectedObject != null)
             UpdateSelectedObjectPosition(dragging: true);
-        
     }
 
     private void HandleMouseClick()
     {
         if (_selectedObject == null)
-        {
             TrySelectObject();
-        }
         else
-        {
             DropObject();
-        }
     }
 
     private void TrySelectObject()
@@ -44,7 +39,7 @@ public class Dragger : MonoBehaviour
             _selectedObject = hit.collider.gameObject;
             // Vector3 mouseWorldPos = GetMouseWorldPosition();
             // _dragOffset = _selectedObject.transform.position - mouseWorldPos;
-          
+
             // Cursor.visible = false;
         }
     }
@@ -60,8 +55,8 @@ public class Dragger : MonoBehaviour
     {
         if (_gridHandler.TryGetPosition(out Vector2 position))
         {
-            _selectedObject.transform.position = new Vector3(position.x , 0,
-                position.y );
+            _selectedObject.transform.position = new Vector3(position.x, 0,
+                position.y);
 
             _selectedObject.transform.position += _gridPivot.position;
         }
