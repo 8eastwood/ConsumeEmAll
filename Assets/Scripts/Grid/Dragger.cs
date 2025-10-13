@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Dragger : MonoBehaviour
 {
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private GridHandler _gridHandler;
-    [SerializeField] private InputReader _inputReader;
+    [SerializeField] private DesktopInput _desktopInput;
 
     [SerializeField] private Transform _gridPivot;
 
@@ -14,7 +15,7 @@ public class Dragger : MonoBehaviour
 
     private void Update()
     {
-        if (_inputReader.LeftMouseButtonDown)
+        if (_desktopInput.IsPointerDown)
             HandleMouseClick();
 
         if (_selectedObject != null)
@@ -84,12 +85,12 @@ public class Dragger : MonoBehaviour
         Camera camera = _mainCamera;
 
         Vector3 screenMousePositionFar = new Vector3(
-            _inputReader.MouseScreenPosition.x,
-            _inputReader.MouseScreenPosition.y,
+            _desktopInput.ScreenPosition.x,
+            _desktopInput.ScreenPosition.y,
             camera.farClipPlane);
         Vector3 screenMousePositionNear = new Vector3(
-            _inputReader.MouseScreenPosition.x,
-            _inputReader.MouseScreenPosition.y,
+            _desktopInput.ScreenPosition.x,
+            _desktopInput.ScreenPosition.y,
             camera.nearClipPlane);
 
         Vector3 worldMousePositionFar = camera.ScreenToWorldPoint(screenMousePositionFar);

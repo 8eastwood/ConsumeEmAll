@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Zenject;
 
 public class GridHandler : MonoBehaviour
 {
@@ -7,12 +9,16 @@ public class GridHandler : MonoBehaviour
     [SerializeField] private Vector2Int _gridSize;
     [SerializeField] private Vector2 _cellSize;
     
-    [SerializeField] private InputReader _inputReader;
     
-    private Plane _plane;
+    private DesktopInput _desktopInput;
     private Camera _camera;
+    private Plane _plane;
 
-    // public Vector2 CellSize => _cellSize;
+    [Inject]
+    private void Initialize(DesktopInput desktopInput)
+    {
+        _desktopInput = desktopInput;
+    }
 
     private void Awake()
     {
@@ -24,7 +30,7 @@ public class GridHandler : MonoBehaviour
     {
         position = Vector2.zero;
 
-        Ray ray = _camera.ScreenPointToRay(_inputReader.MouseScreenPosition);
+        Ray ray = _camera.ScreenPointToRay(_desktopInput.ScreenPosition);
 
         if (_plane.Raycast(ray, out float distance) == false)
             return false;
