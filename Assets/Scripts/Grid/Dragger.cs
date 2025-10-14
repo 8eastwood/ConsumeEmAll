@@ -1,22 +1,50 @@
 using UnityEngine;
-using Zenject;
 
 public class Dragger : MonoBehaviour
 {
-    [SerializeField] private Camera _mainCamera;
+    [Header("Scene Refs")] [SerializeField]
+    private Camera _mainCamera;
+
     [SerializeField] private GridHandler _gridHandler;
     [SerializeField] private Transform _gridPivot;
 
-    [SerializeField] private DesktopInput _desktopInput;
+    [Header("Input")] [SerializeField] private DesktopInput _desktopInput;
+
+    [Header("Drag Settings")] [SerializeField, Min(0f)]
+    private float _smoothTime = 0.08f;
+
+    [SerializeField, Min(0f)] private float _maxSpeed = 100f;
+
+    // Слой для выбираемых объектов (Layer 3 в вашем примере)
+    [SerializeField] private int _draggableLayer = 3;
 
     private GameObject _selectedObject;
-    private int _draggableLayerMask = 1 << 3;
     private Vector3 _dragOffset;
+    private Vector3 _vel;
+    private Vector3 _targetWorldPos;
+    private Vector2Int _lastValidCell;
+    private Vector2Int _originalCell;
+    private int _draggableLayerMask;
+
+    private void Awake()
+    {
+        _draggableLayerMask = 1 << _draggableLayer;
+        if (_gridPivot == null && _gridHandler != null)
+            _gridPivot = _gridHandler.Pivot;
+    }
 
     private void Update()
     {
-        if (_desktopInput.IsPointerDown)
-            HandleMouseClick();
+        if (_desktopInput != null)
+        {
+            if (_desktopInput.IsPointerDown)
+                HandleMouseClick();
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0))
+                HandleMouseClick();
+        }
 
         if (_selectedObject != null)
             UpdateSelectedObjectPosition(dragging: true);
@@ -32,77 +60,98 @@ public class Dragger : MonoBehaviour
 
     private void TrySelectObject()
     {
-        RaycastHit hit = CastRay();
+        if (_mainCamera == null || _gridHandler == null || _gridPivot == null)
+            return;
 
-        if (hit.collider != null && IsOnDragLayer(hit.collider.gameObject))
+        Ray ray = _mainCamera.ScreenPointToRay(GetPointerPosition());
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _draggableLayerMask))
         {
             _selectedObject = hit.collider.gameObject;
-            // Vector3 mouseWorldPos = GetMouseWorldPosition();
-            // _dragOffset = _selectedObject.transform.position - mouseWorldPos;
 
-            // Cursor.visible = false;
+            if (TryGetGridPlaneHit(ray, out Vector3 planeHit))
+            {
+                _dragOffset = _selectedObject.transform.position - planeHit;
+            }
+            else
+            {
+                _dragOffset = Vector3.zero;
+            }
+
+            _originalCell = _gridHandler.WorldToCell(_selectedObject.transform.position);
+            _gridHandler.ReleaseCell(_originalCell, _selectedObject);
+
+            _lastValidCell = _originalCell;
+            _targetWorldPos = _gridHandler.CellToWorld(_lastValidCell);
+            _vel = Vector3.zero;
         }
-    }
-
-    private void DropObject()
-    {
-        UpdateSelectedObjectPosition(dragging: false);
-        _selectedObject = null;
-        Cursor.visible = true;
     }
 
     private void UpdateSelectedObjectPosition(bool dragging)
     {
-        if (_gridHandler.TryGetPosition(out Vector2 position))
+        if (_selectedObject == null || _mainCamera == null || _gridPivot == null || _gridHandler == null)
+            return;
+
+        Ray ray = _mainCamera.ScreenPointToRay(GetPointerPosition());
+        if (!TryGetGridPlaneHit(ray, out Vector3 planeHit))
+            return;
+
+        Vector3 desiredWorld = planeHit + _dragOffset;
+
+        Vector2Int desiredCell = _gridHandler.WorldToCell(desiredWorld);
+
+        if (!_gridHandler.IsCellOccupied(desiredCell))
         {
-            _selectedObject.transform.position = new Vector3(position.x, 0,
-                position.y);
-
-            _selectedObject.transform.position += _gridPivot.position;
+            _lastValidCell = desiredCell;
+            _targetWorldPos = _gridHandler.CellToWorld(_lastValidCell);
         }
+
+        _selectedObject.transform.position = Vector3.SmoothDamp(
+            _selectedObject.transform.position,
+            _targetWorldPos,
+            ref _vel,
+            _smoothTime,
+            _maxSpeed
+        );
     }
 
-    // private Vector3 GetMouseWorldPosition()
-    // {
-    //     Ray ray = _mainCamera.ScreenPointToRay(_inputReader.MouseScreenPosition);
-    //     Plane plane = new Plane(Vector3.up, _gridPivot.position);
-    //     
-    //     if (plane.Raycast(ray, out float distance))
-    //     {
-    //         return ray.GetPoint(distance);
-    //     }
-    //     
-    //     return _selectedObject.transform.position;
-    // }
-
-    private RaycastHit CastRay()
+    private void DropObject()
     {
-        Camera camera = _mainCamera;
+        if (_selectedObject == null || _gridHandler == null)
+            return;
 
-        Vector3 screenMousePositionFar = new Vector3(
-            _desktopInput.ScreenPosition.x,
-            _desktopInput.ScreenPosition.y,
-            camera.farClipPlane);
-        Vector3 screenMousePositionNear = new Vector3(
-            _desktopInput.ScreenPosition.x,
-            _desktopInput.ScreenPosition.y,
-            camera.nearClipPlane);
+        if (!_gridHandler.IsCellOccupied(_lastValidCell))
+        {
+            _gridHandler.ReserveCell(_lastValidCell, _selectedObject);
+            _selectedObject.transform.position = _gridHandler.CellToWorld(_lastValidCell);
+        }
+        else
+        {
+            _gridHandler.ReserveCell(_originalCell, _selectedObject);
+            _selectedObject.transform.position = _gridHandler.CellToWorld(_originalCell);
+        }
 
-        Vector3 worldMousePositionFar = camera.ScreenToWorldPoint(screenMousePositionFar);
-        Vector3 worldMousePositionNear = camera.ScreenToWorldPoint(screenMousePositionNear);
-
-        RaycastHit hit;
-        Physics.Raycast(worldMousePositionNear,
-            worldMousePositionFar - worldMousePositionNear,
-            out hit,
-            Mathf.Infinity,
-            _draggableLayerMask);
-
-        return hit;
+        _selectedObject = null;
+        _vel = Vector3.zero;
     }
 
-    private bool IsOnDragLayer(GameObject gameObject)
+    private bool TryGetGridPlaneHit(Ray ray, out Vector3 hitPoint)
     {
-        return (_draggableLayerMask & (1 << gameObject.layer)) != 0;
+        Plane plane = new Plane(_gridPivot.up, _gridPivot.position);
+        if (plane.Raycast(ray, out float enter))
+        {
+            hitPoint = ray.GetPoint(enter);
+            return true;
+        }
+
+        hitPoint = default;
+        return false;
+    }
+
+    private Vector3 GetPointerPosition()
+    {
+        if (_desktopInput != null)
+            return _desktopInput.PointerPosition;
+        else
+            return Input.mousePosition;
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class MobileInput : MonoBehaviour, IInput
 {
-    public Vector3 ScreenPosition => Input.GetTouch(0).position;
+    public Vector3 PointerPosition => Input.GetTouch(0).position;
 
     public bool IsPointerDown => Input.touchCount > 0 &&
                                  Input.GetTouch(0).phase == TouchPhase.Began;

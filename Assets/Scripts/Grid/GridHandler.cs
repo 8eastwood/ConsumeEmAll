@@ -1,40 +1,66 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Zenject;
 
 public class GridHandler : MonoBehaviour
 {
-    [SerializeField] private Transform _gridPivot;
-    [SerializeField] private Vector2Int _gridSize;
-    [SerializeField] private Vector2 _cellSize;
-    
-    [SerializeField] private DesktopInput _desktopInput;
-    
-    private Camera _camera;
-    private Plane _plane;
+    [Header("Grid")] [SerializeField] private Transform _gridPivot;
+    [SerializeField, Min(0.01f)] private float _cellSize = 1f;
 
-    private void Awake()
+    private readonly Dictionary<Vector2Int, GameObject> _occupied = new Dictionary<Vector2Int, GameObject>();
+
+    public Transform Pivot => _gridPivot;
+    // public float CellSize => _cellSize;
+
+    public Vector2Int WorldToCell(Vector3 world)
     {
-        _camera = Camera.main;
-        _plane = new Plane(Vector3.up, _gridPivot.position);
+        if (_gridPivot == null) return Vector2Int.zero;
+
+        Vector3 local = Quaternion.Inverse(_gridPivot.rotation) * (world - _gridPivot.position);
+        int x = Mathf.RoundToInt(local.x / _cellSize);
+        int y = Mathf.RoundToInt(local.z / _cellSize); // используем XZ плоскость
+        return new Vector2Int(x, y);
     }
 
-    public bool TryGetPosition(out Vector2 position)
+    public Vector3 CellToWorld(Vector2Int cell)
     {
-        position = Vector2.zero;
+        if (_gridPivot == null) return Vector3.zero;
 
-        Ray ray = _camera.ScreenPointToRay(_desktopInput.ScreenPosition);
+        Vector3 local = new Vector3(cell.x * _cellSize, 0f, cell.y * _cellSize);
+        return _gridPivot.position + _gridPivot.rotation * local;
+    }
 
-        if (_plane.Raycast(ray, out float distance) == false)
-            return false;
+    public Vector3 SnapToGrid(Vector3 world)
+    {
+        return CellToWorld(WorldToCell(world));
+    }
 
-        Vector3 hitPoint = ray.GetPoint(distance);
-        hitPoint -= _gridPivot.position;
-        position.x = Mathf.FloorToInt(hitPoint.x / _cellSize.x);
-        position.y = Mathf.FloorToInt(hitPoint.z / _cellSize.y);
-        // Debug.Log(position);
+    public bool IsCellOccupied(Vector2Int cell)
+    {
+        return _occupied.ContainsKey(cell);
+    }
 
-        return position.x >= 0 && position.x < _gridSize.x && position.y >= 0 && position.y < _gridSize.y;
+    public GameObject GetOccupant(Vector2Int cell)
+    {
+        if (_occupied.TryGetValue(cell, out GameObject occupant))
+            return occupant;
+        else
+            return null;
+    }
+
+    public void ReserveCell(Vector2Int cell, GameObject occupant)
+    {
+        _occupied[cell] = occupant;
+    }
+
+    public void ReleaseCell(Vector2Int cell, GameObject occupant)
+    {
+        if (_occupied.TryGetValue(cell, out var current) && current == occupant)
+            _occupied.Remove(cell);
+    }
+
+    public void RegisterAtCurrentCell(GameObject occupant)
+    {
+        var cell = WorldToCell(occupant.transform.position);
+        ReserveCell(cell, occupant);
     }
 }
