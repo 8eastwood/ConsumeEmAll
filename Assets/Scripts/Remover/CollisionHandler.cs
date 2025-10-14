@@ -10,7 +10,6 @@ public class CollisionHandler : MonoBehaviour
         if(collision.TryGetComponent(out Unit unit))
         {
             UnitReached?.Invoke(unit);
-            Debug.Log("reached");
         }
     }
 }
