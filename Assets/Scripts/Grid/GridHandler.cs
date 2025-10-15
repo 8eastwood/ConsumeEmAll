@@ -29,7 +29,7 @@ public class GridHandler : MonoBehaviour
         hitPoint -= _gridPivot.position;
         position.x = Mathf.FloorToInt(hitPoint.x / _cellSize.x);
         position.y = Mathf.FloorToInt(hitPoint.z / _cellSize.y);
-        // Debug.Log(position);
+        Debug.Log(position);
 
         return position.x >= 0 &&
                position.x < _gridSize.x &&
