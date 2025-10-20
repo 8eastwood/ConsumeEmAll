@@ -14,11 +14,13 @@ public class Dragger : MonoBehaviour
 
     private int _draggableLayerMask = 1 << 3;
 
-    // private Vector3 _dragOffset;
+    private Vector3 _dragOffset;
     private Vector3 _velocity;
     private float _smoothTime = 0.08f;
     private bool _isDragging = false;
     private Vector3 _targetPosition;
+    private Vector3 _hitPointLocal;
+    private float _positionY = 0f;
 
     private void Awake()
     {
@@ -42,8 +44,9 @@ public class Dragger : MonoBehaviour
     {
         if (_gridHandler.TryGetPosition(out Vector2 position))
         {
-            _targetPosition = new Vector3(position.x, 0, position.y);
-            _targetPosition += _gridPivot.position;
+             _targetPosition = new Vector3(position.x, _positionY, position.y);
+             _targetPosition += _gridPivot.position +  _dragOffset;
+             // _targetPosition += _gridPivot.position;
         }
     }
 
@@ -75,38 +78,34 @@ public class Dragger : MonoBehaviour
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.angularVelocity = Vector3.zero;
             _selectedObject = hit.collider.gameObject;
+            
+            Vector3 hitPointWorld = hit.point;
+            _dragOffset = _selectedObject.transform.position - hitPointWorld;
         }
     }
 
     private void DropObject()
     {
         _isDragging = false;
-        UpdateSelectedObjectPosition();
+        // UpdateSelectedObjectPosition();
+        UpdateTargetPosition();
         _selectedObject = null;
     }
 
-    private void UpdateSelectedObjectPosition()
-    {
-        if (_gridHandler.TryGetPosition(out Vector2 position))
-        {
-            Vector3 targetPosition = new Vector3(position.x, 0, position.y);
-            targetPosition += _gridPivot.position;
-
-            // if (_isDragging == false)
-            // {
-            //     _selectedObject.transform.position = targetPosition;
-            //     _velocity = Vector3.zero;
-            // }
-            // else
-            // {
-                _selectedObject.transform.position = Vector3.SmoothDamp(
-                    _selectedObject.transform.position,
-                    targetPosition,
-                    ref _velocity,
-                    _smoothTime);
-            
-        }
-    }
+    // private void UpdateSelectedObjectPosition()
+    // {
+    //     if (_gridHandler.TryGetPosition(out Vector2 position))
+    //     {
+    //         Vector3 targetPosition = new Vector3(position.x, 0, position.y);
+    //         targetPosition += _gridPivot.position;
+    //
+    //         _selectedObject.transform.position = Vector3.SmoothDamp(
+    //             _selectedObject.transform.position,
+    //             targetPosition,
+    //             ref _velocity,
+    //             _smoothTime);
+    //     }
+    // }
 
     private RaycastHit CastRay()
     {
@@ -135,26 +134,8 @@ public class Dragger : MonoBehaviour
         return hit;
     }
 
-    private bool TryHitPlane(Ray ray, out Vector3 hitPoint)
-    {
-        Plane plane = new Plane(_gridPivot.up, _gridPivot.position);
-        if (plane.Raycast(ray, out float enter))
-        {
-            hitPoint = ray.GetPoint(enter);
-            return true;
-        }
-
-        hitPoint = default;
-        return false;
-    }
-
     private bool IsOnDragLayer(GameObject gameObject)
     {
         return (_draggableLayerMask & (1 << gameObject.layer)) != 0;
     }
-
-    // public bool OnDraggingChanged()
-    // {
-    //     _isDragging = true;
-    // }
 }
