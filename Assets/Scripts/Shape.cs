@@ -1,46 +1,40 @@
-using System;
-using UnityEngine;
+// using UnityEngine;
+//
+//
+// public class Shape : MonoBehaviour
+// {
+//    private Rigidbody _rigidbody;
+//    private bool IsDragging = false;
+//
+//    private void Awake()
+//    {
+//       _rigidbody = GetComponent<Rigidbody>();
+//    }
+//    
+//    private void 
+// }
 
-public class Shape : MonoBehaviour
-{
-    [SerializeField] private Transform shapeTransform;
-    
-    private int[,] _shapePlacement = new int[4,2];
-
-    private void Start()
-    {
-        CalculateShapePlacement();
-        DebugShapePlacementVisual();
-    }
-
-    private void CalculateShapePlacement()
-    {
-        Vector3 worldPosition = shapeTransform.position;
-        float cellSize = 1f;
-        
-        int pivotX = Mathf.RoundToInt(worldPosition.x / cellSize);
-        int pivotY = Mathf.RoundToInt(worldPosition.y / cellSize);
-
-        int startX = pivotX - 1;
-        int startY = pivotY - 1;
-
-        _shapePlacement[0, 0] = startX;
-        _shapePlacement[0, 1] = startY;
-        _shapePlacement[1, 0] = startX + 1;
-        _shapePlacement[1, 1] = startY;
-        _shapePlacement[2, 0] = startX;
-        _shapePlacement[2, 1] = startY + 1;
-        _shapePlacement[3, 0] = startX + 1;
-        _shapePlacement[3, 1] = startY + 1;
-    }
-    
-    private void DebugShapePlacementVisual()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            int x = _shapePlacement[i, 0];
-            int y = _shapePlacement[i, 1];
-            Debug.Log($"({x}, {y})");
-        }
-    }
-}
+    // надо попробовать внедрить в gridHandler, т.к. я не проверяю на положения мыши в рамках поля
+//
+// using UnityEngine;
+//     
+// public class SimpleGridTracker : MonoBehaviour
+// {
+//     [SerializeField] private GridHandler _gridHandler;
+//     
+//     private void Update()
+//     {
+//         if (_gridHandler.TryGetGridPosition(out Vector2 gridPos))
+//         {
+//             Vector2Int cellPos = new Vector2Int((int)gridPos.x, (int)gridPos.y);
+//             
+//             // Делайте что-то с позицией
+//             Debug.Log($"Mouse in cell: {cellPos}");
+//             
+//             // Получаем мировые координаты
+//             Vector3 worldPos = _gridHandler.GetWorldPosition(cellPos);
+//             
+//             // Используйте worldPos для визуализации и т.д.
+//         }
+//     }
+// }

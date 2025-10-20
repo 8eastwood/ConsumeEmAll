@@ -1040,7 +1040,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123c8644492879d4da1a17e10ee1af24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shapeTransform: {fileID: 1636005680}
+  _rigidbody: {fileID: 0}
+--- !u!54 &1636005687 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 1667507066230037734, guid: cfaf2fa53f4dcb94db101d20a7af44a4, type: 3}
+  m_PrefabInstance: {fileID: 8799239489872141962}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1647029397 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6386061013842934610, guid: 868f031c528d4b942821ab92f5b4a4ab, type: 3}
@@ -1244,6 +1249,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 88159165779242149, guid: 9f20f25697fda1e488051262ded233b0, type: 3}
+      propertyPath: _rigidbody
+      value: 
+      objectReference: {fileID: 1636005687}
+    - target: {fileID: 88159165779242149, guid: 9f20f25697fda1e488051262ded233b0, type: 3}
       propertyPath: _mainCamera
       value: 
       objectReference: {fileID: 963194227}
@@ -1365,6 +1374,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 601695848}
+    - target: {fileID: 1927509491841889729, guid: a995dda61e23532449a0a06665b407db, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3075369587873431443, guid: a995dda61e23532449a0a06665b407db, type: 3}
       propertyPath: m_Name
       value: Yellow Cube
