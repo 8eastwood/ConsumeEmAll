@@ -838,20 +838,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5265252789001296416, guid: 9f20f25697fda1e488051262ded233b0, type: 3}
   m_PrefabInstance: {fileID: 5322777735514235261}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &725602842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 725602836}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8115b8a589c502243a30ed4965ed2be1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rigidbody: {fileID: 1636005687}
-  _camera: {fileID: 963194227}
 --- !u!114 &725602843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -866,9 +852,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 1636005687}
   _camera: {fileID: 963194227}
-  _coefficientAttractionToMouse: 20
-  _maxAcceleration: 100
-  _damp: 5
+  _coefficientAttractionToMouse: 500
+  _maxAcceleration: 1000000
+  _damp: 50
 --- !u!1 &746583204
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,13 +1285,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Floor
       objectReference: {fileID: 0}
+    - target: {fileID: 5776767927873628057, guid: 9f20f25697fda1e488051262ded233b0, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6472282451356961815, guid: 9f20f25697fda1e488051262ded233b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6472282451356961815, guid: 9f20f25697fda1e488051262ded233b0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.04
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6472282451356961815, guid: 9f20f25697fda1e488051262ded233b0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1347,9 +1337,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5265252789001296416, guid: 9f20f25697fda1e488051262ded233b0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 725602842}
     - targetCorrespondingSourceObject: {fileID: 5265252789001296416, guid: 9f20f25697fda1e488051262ded233b0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 725602843}
@@ -1504,6 +1491,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 608309218}
+    - target: {fileID: 1667507066230037734, guid: cfaf2fa53f4dcb94db101d20a7af44a4, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3075369587873431443, guid: cfaf2fa53f4dcb94db101d20a7af44a4, type: 3}
       propertyPath: m_Name
       value: Red Cube
