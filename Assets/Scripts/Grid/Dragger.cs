@@ -1,141 +1,115 @@
+using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class Dragger : MonoBehaviour
 {
-    [SerializeField] private Camera _mainCamera;
     [SerializeField] private GridHandler _gridHandler;
     [SerializeField] private Transform _gridPivot;
-
     [SerializeField] private DesktopInput _desktopInput;
-    [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private LayerMask _draggableLayerMask;
+    [SerializeField] private AnimationCurve _snapCurve;
+    [SerializeField] private float _snapTime = .3f;
 
     private GameObject _selectedObject;
-
-    private int _draggableLayerMask = 1 << 3;
-
     private Vector3 _dragOffset;
     private Vector3 _velocity;
-    private float _smoothTime = 0.08f;
     private bool _isDragging = false;
     private Vector3 _targetPosition;
-    private Vector3 _hitPointLocal;
-    private float _positionY = 0f;
+    private Plane _plane;
+    private float _maxLength = 10.0f;
+    private float _speedMultiplier = 10f;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        _plane = new Plane(Vector3.up, _gridPivot.position);
     }
 
     private void Update()
     {
-        if (_desktopInput.IsPointerDown)
-            HandleMouseClick();
+        if (_isDragging == false)
+            HandleDefaultState();
+        else
+            HandleDraggingState();
+    }
 
-        if (_selectedObject != null)
+    private void HandleDefaultState()
+    {
+        if (_desktopInput.IsPointerDown && TrySelectObject())
+            _isDragging = true;
+    }
+
+    private void HandleDraggingState()
+    {
+        if (_desktopInput.IsPointerUp)
         {
-            UpdateTargetPosition();
-            MoveShape();
-            // UpdateSelectedObjectPosition();
+            _isDragging = false;
+            StartCoroutine(SnappingToGrid());
+            return;
         }
+
+        UpdateTargetPosition();
+        MoveShape();
+    }
+
+    private bool TrySelectObject()
+    {
+        var ray = Camera.main.ScreenPointToRay(_desktopInput.PointerPosition);
+        Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _draggableLayerMask);
+        Debug.Log(hit.collider.name);
+
+        if (hit.collider == null || !hit.collider.gameObject.TryGetComponent<Rigidbody>(out var rb))
+            return false;
+
+        rb.isKinematic = false;
+        rb.velocity = Vector3.zero;
+        _selectedObject = hit.collider.gameObject;
+        _selectedObject.transform.position += new Vector3(0f, 0.05f, 0f);
+        _dragOffset = _selectedObject.transform.position - CastRayToPlane(ray);
+        
+        return true;
     }
 
     private void UpdateTargetPosition()
     {
-        if (_gridHandler.TryGetPosition(out Vector2 position))
-        {
-             _targetPosition = new Vector3(position.x, _positionY, position.y);
-             _targetPosition += _gridPivot.position +  _dragOffset;
-             // _targetPosition += _gridPivot.position;
-        }
+        Vector3 castedPoint = CastRayToPlane(Camera.main.ScreenPointToRay(_desktopInput.PointerPosition));
+        Vector3 offsetPoint = castedPoint + _dragOffset;
+
+        if (_gridHandler.TryGetValidGridPosition(castedPoint, out Vector2 position))
+            _targetPosition = offsetPoint;
     }
 
     private void MoveShape()
     {
-        _selectedObject.transform.position = Vector3.SmoothDamp(
-            _selectedObject.transform.position,
-            _targetPosition,
-            ref _velocity,
-            _smoothTime);
+        _selectedObject.TryGetComponent<Rigidbody>(out var rigidbody);
+        rigidbody.velocity = (_targetPosition - _selectedObject.transform.position) * _speedMultiplier;
+
+        rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, _maxLength);
     }
 
-    private void HandleMouseClick()
+    private IEnumerator SnappingToGrid()
     {
-        if (_selectedObject == null)
-            TrySelectObject();
-        else
-            DropObject();
-    }
-
-    private void TrySelectObject()
-    {
-        RaycastHit hit = CastRay();
-
-        if (hit.collider != null && IsOnDragLayer(hit.collider.gameObject))
-        {
-            _isDragging = true;
-            _rigidbody.isKinematic = false;
-            _rigidbody.velocity = Vector3.zero;
-            _rigidbody.angularVelocity = Vector3.zero;
-            _selectedObject = hit.collider.gameObject;
-            
-            Vector3 hitPointWorld = hit.point;
-            _dragOffset = _selectedObject.transform.position - hitPointWorld;
-        }
-    }
-
-    private void DropObject()
-    {
-        _isDragging = false;
-        // UpdateSelectedObjectPosition();
-        UpdateTargetPosition();
+        GameObject temporaryObject = _selectedObject;
         _selectedObject = null;
+        temporaryObject.TryGetComponent<Rigidbody>(out var rb);
+        rb.isKinematic = true;
+
+        _gridHandler.TryGetValidGridPosition(temporaryObject.transform.position, out Vector2 position);
+        Vector3 start = temporaryObject.transform.position;
+        Vector3 end = _gridPivot.position + new Vector3(position.x + .5f, 0, position.y + .5f);
+
+        for (float t = 0f; t < 1f; t += Time.deltaTime / _snapTime)
+        {
+            temporaryObject.transform.position = Vector3.Lerp(start, end, _snapCurve.Evaluate(t));
+            yield return null;
+        }
+
+        temporaryObject.transform.position = end;
     }
 
-    // private void UpdateSelectedObjectPosition()
-    // {
-    //     if (_gridHandler.TryGetPosition(out Vector2 position))
-    //     {
-    //         Vector3 targetPosition = new Vector3(position.x, 0, position.y);
-    //         targetPosition += _gridPivot.position;
-    //
-    //         _selectedObject.transform.position = Vector3.SmoothDamp(
-    //             _selectedObject.transform.position,
-    //             targetPosition,
-    //             ref _velocity,
-    //             _smoothTime);
-    //     }
-    // }
-
-    private RaycastHit CastRay()
+    private Vector3 CastRayToPlane(Ray ray)
     {
-        Camera camera = _mainCamera;
-
-        Vector3 screenMousePositionFar = new Vector3(
-            _desktopInput.PointerPosition.x,
-            _desktopInput.PointerPosition.y,
-            camera.farClipPlane);
-        Vector3 screenMousePositionNear = new Vector3(
-            _desktopInput.PointerPosition.x,
-            _desktopInput.PointerPosition.y,
-            camera.nearClipPlane);
-
-        Vector3 worldMousePositionFar = camera.ScreenToWorldPoint(screenMousePositionFar);
-        Vector3 worldMousePositionNear = camera.ScreenToWorldPoint(screenMousePositionNear);
-
-        RaycastHit hit;
-
-        Physics.Raycast(worldMousePositionNear,
-            worldMousePositionFar - worldMousePositionNear,
-            out hit,
-            Mathf.Infinity,
-            _draggableLayerMask);
-
-        return hit;
-    }
-
-    private bool IsOnDragLayer(GameObject gameObject)
-    {
-        return (_draggableLayerMask & (1 << gameObject.layer)) != 0;
+        _plane.Raycast(ray, out float distance);
+        Vector3 hitPoint = ray.GetPoint(distance);
+        return hitPoint;
     }
 }
