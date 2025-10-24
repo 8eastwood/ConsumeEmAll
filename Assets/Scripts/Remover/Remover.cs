@@ -7,15 +7,15 @@ public class Remover : MonoBehaviour
 
     private void OnEnable()
     {
-        _collisionHandler.UnitReached += CollectUnit;
+        _collisionHandler.UnitReached += TryCollectUnit;
     }
 
     private void OnDisable()
     {
-        _collisionHandler.UnitReached -= CollectUnit;
+        _collisionHandler.UnitReached -= TryCollectUnit;
     }
 
-    private void CollectUnit(Unit unit)
+    private void TryCollectUnit(Unit unit)
     {
         ColorIdentity unitColor = unit.GetComponent<ColorIdentity>();
         
