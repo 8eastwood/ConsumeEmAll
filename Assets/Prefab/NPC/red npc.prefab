@@ -308,6 +308,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 31d7041f426320d4985f440fab7a81e5, type: 2}
     - target: {fileID: 5958873565641475401, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -400,6 +404,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2757272991211783041}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5159435947142181956}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5849591715132126880}
   m_SourcePrefab: {fileID: 100100000, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
 --- !u!1 &6040461817218884072 stripped
 GameObject:
@@ -473,3 +483,42 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.4}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!95 &5159435947142181956
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6040461817218884072}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: e396762cf02499547ab698be8b2ac5fc, type: 3}
+  m_Controller: {fileID: 9100000, guid: 31d7041f426320d4985f440fab7a81e5, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5849591715132126880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6040461817218884072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f449b00199c3c419601a5d08f133f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 5159435947142181956}
+  stateName: IdleBlendTree
+  parameterName: IdleIndex
+  clipCount: 4
+  minValue: 3
+  maxValue: 10
