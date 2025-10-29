@@ -3,21 +3,23 @@ using UnityEngine;
 
 public class Dragger : MonoBehaviour
 {
-    [SerializeField] private GridHandler _gridHandler;
-    [SerializeField] private Transform _gridPivot;
-    [SerializeField] private DesktopInput _desktopInput;
-    [SerializeField] private LayerMask _draggableLayerMask;
     [SerializeField] private AnimationCurve _snapCurve;
+    [SerializeField] private DesktopInput _desktopInput;
+    [SerializeField] private GridHandler _gridHandler;
+    [SerializeField] private LayerMask _draggableLayerMask;
+    [SerializeField] private Transform _gridPivot;
     [SerializeField] private float _snapTime = .3f;
+    [SerializeField] private float _liftSelectedObject = .05f;
 
     private GameObject _selectedObject;
+    private Plane _plane;
     private Vector3 _dragOffset;
     private Vector3 _velocity;
-    private bool _isDragging = false;
     private Vector3 _targetPosition;
-    private Plane _plane;
+    private bool _isDragging = false;
     private float _maxLength = 10.0f;
     private float _speedMultiplier = 10f;
+    private Draggable _draggable;
 
     private void Awake()
     {
@@ -63,9 +65,13 @@ public class Dragger : MonoBehaviour
         rb.isKinematic = false;
         rb.velocity = Vector3.zero;
         _selectedObject = hit.collider.gameObject;
-        _selectedObject.transform.position += new Vector3(0f, 0.05f, 0f);
+        _draggable = _selectedObject.GetComponent<Draggable>();
+        _selectedObject.transform.position += new Vector3(0f, _liftSelectedObject, 0f);
         _dragOffset = _selectedObject.transform.position - CastRayToPlane(ray);
-        
+
+        if (_draggable != null)
+            _draggable.SetOutlineOn();
+
         return true;
     }
 
@@ -90,6 +96,8 @@ public class Dragger : MonoBehaviour
     {
         GameObject temporaryObject = _selectedObject;
         _selectedObject = null;
+        _draggable.SetOutlineOff();
+        _draggable = null;
         temporaryObject.TryGetComponent<Rigidbody>(out var rb);
         rb.isKinematic = true;
 
