@@ -1,39 +1,50 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomIdleAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-    
-    [SerializeField] private string stateName = "IdleBlendTree";
-    [SerializeField] private string parameterName = "IdleIndex";
-    [SerializeField] private int clipCount = 4;
-    [SerializeField] private float minWaitingTime = 3f;
-    [SerializeField] private float maxWaitingTime = 10f;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private List<string> _idleAnimations;
+    [SerializeField] private float _minWaitingTime = 10f;
+    [SerializeField] private float _maxWaitingTime = 20f;
 
-    private void OnEnable()
+    private float _timer;
+
+    private void Awake()
     {
-        StartCoroutine(ChangeIdleAnimation());
+        _idleAnimations =
+            new List<string> { "HappyIdle", "SadIdle", "DwarfIdle", "BreathingIdle" };
     }
-    
-    private IEnumerator ChangeIdleAnimation()
+
+    private void Update()
     {
-        while (true)
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+
+        if (stateInfo.IsName("Idle"))
         {
-            yield return new WaitForSeconds(Random.Range(minWaitingTime, maxWaitingTime));
-            int index = Random.Range(0, clipCount);
-            animator.SetFloat(parameterName, index);
-            animator.Play(stateName, 0, Random.value);
-            animator.Update(0);
+            _timer += Time.deltaTime;
+            
+            if (_timer >= GetTimeUntilNextAnimation())
+            {
+                PlayRandomIdleAnimation();
+                ResetTimer();
+            }
         }
     }
 
-    // private void Start()
-    // {
-    //     int index = Random.Range(0, clipCount);
-    //     
-    //     animator.SetFloat(parameterName, index);
-    //     animator.Play(stateName, 0, Random.value);
-    //     animator.Update(0);
-    // }
+    private float GetTimeUntilNextAnimation()
+    {
+        return Random.Range(_minWaitingTime, _maxWaitingTime);
+    }
+
+    private void ResetTimer()
+    {
+        _timer = 0;
+    }
+
+    private void PlayRandomIdleAnimation()
+    {
+        string randomIdleAnimation = _idleAnimations[Random.Range(0, _idleAnimations.Count)];
+        _animator.SetTrigger(randomIdleAnimation);
+    }
 }

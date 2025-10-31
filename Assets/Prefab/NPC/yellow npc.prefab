@@ -192,7 +192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.813
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
       propertyPath: m_LocalPosition.y
@@ -200,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.915
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
       propertyPath: m_LocalRotation.w
@@ -579,7 +579,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6241255782350403627}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 455302566870940277}
   m_SourcePrefab: {fileID: 100100000, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
+--- !u!95 &708865195241707688 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
+  m_PrefabInstance: {fileID: 6394250047927985465}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3772696948605200394 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1375920705373893325, guid: da2dbb753d33a45449564e559c2bb899, type: 3}
@@ -675,3 +683,19 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &455302566870940277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6088190890412120168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f449b00199c3c419601a5d08f133f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 708865195241707688}
+  _idleAnimations: []
+  _minWaitingTime: 10
+  _maxWaitingTime: 20
