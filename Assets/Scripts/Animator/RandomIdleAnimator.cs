@@ -9,6 +9,7 @@ public class RandomIdleAnimator : MonoBehaviour
     [SerializeField] private float _maxWaitingTime = 20f;
 
     private float _timer;
+    private float _timeUntilNextAnimation;
 
     private void Awake()
     {
@@ -18,13 +19,16 @@ public class RandomIdleAnimator : MonoBehaviour
 
     private void Update()
     {
+        if (_timeUntilNextAnimation == 0)
+            _timeUntilNextAnimation = GetTimeUntilNextAnimation();
+
         AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
         if (stateInfo.IsName("Idle"))
         {
             _timer += Time.deltaTime;
-            
-            if (_timer >= GetTimeUntilNextAnimation())
+
+            if (_timer >= _timeUntilNextAnimation)
             {
                 PlayRandomIdleAnimation();
                 ResetTimer();
@@ -40,6 +44,7 @@ public class RandomIdleAnimator : MonoBehaviour
     private void ResetTimer()
     {
         _timer = 0;
+        _timeUntilNextAnimation = 0;
     }
 
     private void PlayRandomIdleAnimation()

@@ -57,11 +57,11 @@ public class Dragger : MonoBehaviour
     {
         var ray = Camera.main.ScreenPointToRay(_desktopInput.PointerPosition);
         Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, _draggableLayerMask);
-        Debug.Log(hit.collider.name);
 
         if (hit.collider == null || !hit.collider.gameObject.TryGetComponent<Rigidbody>(out var rb))
             return false;
 
+        // Debug.Log(hit.collider.name);
         rb.isKinematic = false;
         rb.velocity = Vector3.zero;
         _selectedObject = hit.collider.gameObject;
