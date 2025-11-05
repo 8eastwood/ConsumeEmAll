@@ -8,7 +8,7 @@ public class Draggable : MonoBehaviour
     private void OnEnable()
     {
         _outline = GetComponent<Outline>();
-        SetOutlineOff();
+        // SetOutlineOn();
     }
 
     public void SetOutlineOn()
