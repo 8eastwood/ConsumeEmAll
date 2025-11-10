@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class CollisionHandler : MonoBehaviour
 {
-    public Action<Unit> UnitReached;
+    public Action<Bomb> UnitReached;
     
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.TryGetComponent(out Unit unit))
+        if(collision.TryGetComponent(out Bomb unit))
         {
             UnitReached?.Invoke(unit);
         }

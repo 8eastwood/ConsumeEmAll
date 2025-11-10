@@ -15,16 +15,19 @@ public class Remover : MonoBehaviour
         _collisionHandler.UnitReached -= TryCollectUnit;
     }
 
-    private void TryCollectUnit(Unit unit)
+    private void TryCollectUnit(Bomb bomb)
     {
-        ColorIdentity unitColor = unit.GetComponent<ColorIdentity>();
+        ColorIdentity bombColor = bomb.GetComponent<ColorIdentity>();
+        BombAnimator unitAnimator = bomb.GetComponent<BombAnimator>();
         
-        Debug.Log(unitColor.Color);
+        Debug.Log(bombColor.Color);
 
-        if (unitColor != null && unitColor.Color == _colorIdentity.Color)
+        if (bombColor != null && bombColor.Color == _colorIdentity.Color)
         {
-            Debug.Log(unitColor.Color);
-            unit.Remove();
+            
+            unitAnimator.PlayDefuseAnimation();
+            Debug.Log(bombColor.Color);
+            // unit.Remove();
         }
     }
 }
