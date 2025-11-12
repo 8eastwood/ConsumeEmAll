@@ -69,9 +69,6 @@ public class Dragger : MonoBehaviour
         _selectedObject.transform.position += new Vector3(0f, _liftSelectedObject, 0f);
         _dragOffset = _selectedObject.transform.position - CastRayToPlane(ray);
 
-        if (_draggable != null)
-            _draggable.SetOutlineOn();
-
         return true;
     }
 
@@ -96,7 +93,6 @@ public class Dragger : MonoBehaviour
     {
         GameObject temporaryObject = _selectedObject;
         _selectedObject = null;
-        _draggable.SetOutlineOff();
         _draggable = null;
         temporaryObject.TryGetComponent<Rigidbody>(out var rb);
         rb.isKinematic = true;

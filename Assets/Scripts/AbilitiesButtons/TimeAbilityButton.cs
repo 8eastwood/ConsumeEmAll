@@ -1,9 +1,11 @@
-using UnityEngine;
+using System;
 
 public class TimeAbilityButton : ButtonListener
 {
+    public event Action ButtonClicked;
+    
     protected override void ClickOnButton()
     {
-        Debug.Log("Time will stop or smth");
+        ButtonClicked?.Invoke();
     }
 }

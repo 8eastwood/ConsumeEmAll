@@ -20,11 +20,10 @@ public class Remover : MonoBehaviour
         ColorIdentity bombColor = bomb.GetComponent<ColorIdentity>();
         BombAnimator unitAnimator = bomb.GetComponent<BombAnimator>();
         
-        Debug.Log(bombColor.Color);
+        // Debug.Log(bombColor.Color);
 
         if (bombColor != null && bombColor.Color == _colorIdentity.Color)
         {
-            
             unitAnimator.PlayDefuseAnimation();
             Debug.Log(bombColor.Color);
             // unit.Remove();
