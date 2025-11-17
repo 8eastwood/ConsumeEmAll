@@ -43,7 +43,10 @@ public class Timer : MonoBehaviour
             UpdateTimeText();
 
             if (_timeLeft <= 0)
+            {
                 GameOver?.Invoke();
+                Debug.Log("GameOver");
+            }
 
             yield return null;
         }

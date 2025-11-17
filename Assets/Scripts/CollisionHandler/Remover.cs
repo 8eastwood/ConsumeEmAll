@@ -25,7 +25,7 @@ public class Remover : MonoBehaviour
         if (bombColor != null && bombColor.Color == _colorIdentity.Color)
         {
             unitAnimator.PlayDefuseAnimation();
-            Debug.Log(bombColor.Color);
+            // Debug.Log(bombColor.Color);
             // unit.Remove();
         }
     }

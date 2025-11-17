@@ -9,7 +9,12 @@ public class Game : MonoBehaviour
     private void OnEnable()
     {
         _endGameScreen.RestartButtonClicked += OnRestartButtonClick;
-        _timer.GameOver +=
+        _timer.GameOver += OnGameOver;
+    }
+
+    private void Start()
+    {
+        Time.timeScale = 1f;
     }
 
     private void OnDisable()
@@ -20,5 +25,11 @@ public class Game : MonoBehaviour
     private void OnRestartButtonClick()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void OnGameOver()
+    {
+        Time.timeScale = 0;
+        _endGameScreen.Open();
     }
 }

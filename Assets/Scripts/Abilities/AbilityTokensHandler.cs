@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class AbilityTokensHandler : MonoBehaviour
 {
-    [SerializeField] private AddTimeAbility _timeAbility;
-
     private int _tokens;
     private int _amount = 1;
     public int Tokens => _tokens;
@@ -13,7 +11,7 @@ public class AbilityTokensHandler : MonoBehaviour
         AddTokens();
         _amount -= 1;
     }
-    
+
     public void RemoveToken()
     {
         _tokens -= 1;
