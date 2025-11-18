@@ -2,22 +2,27 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Timer : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private DesktopInput _desktopInputReader;
-    [Space]
-    [SerializeField] private float _time;
+    [Header("Settings")]
+    [SerializeField] private float _levelStartTime;
 
+    private bool _timerStarted;
     private float _timeLeft = 0f;
-    private bool _timerStarted = false;
+
+    public float TimeLeft => _timeLeft;
+    public float LevelStartTime => _levelStartTime;
 
     public event Action GameOver;
 
     private void Start()
     {
-        _timeLeft = _time;
+        _timeLeft = _levelStartTime;
         _timerStarted = false;
     }
 
@@ -45,7 +50,7 @@ public class Timer : MonoBehaviour
             if (_timeLeft <= 0)
             {
                 GameOver?.Invoke();
-                Debug.Log("GameOver");
+                // Debug.Log("GameOver");
             }
 
             yield return null;

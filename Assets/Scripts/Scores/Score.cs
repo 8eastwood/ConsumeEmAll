@@ -7,5 +7,6 @@ public class Score : MonoBehaviour
     public void AddScore(int score)
     {
         _score += score;
+        Debug.Log(_score);
     }
 }

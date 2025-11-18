@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9f80567d2324a0844ba9b252239551b3, type: 2}
+  - {fileID: 2100000, guid: f3d830d436d6c094591ca7fa5b0560b5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -660,7 +660,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 42
+  m_VersionIndex: 54
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -678,6 +678,9 @@ GameObject:
   - component: {fileID: 8276492620908703835}
   - component: {fileID: 1504289904133809151}
   - component: {fileID: 205773847210766811}
+  - component: {fileID: 6395567262784951427}
+  - component: {fileID: 3441584042911696135}
+  - component: {fileID: 3640705715922511440}
   m_Layer: 3
   m_Name: Long Horizontal Line Shape
   m_TagString: Untagged
@@ -762,6 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collisionHandler: {fileID: 205773847210766811}
+  _colorIdentity: {fileID: 6395567262784951427}
 --- !u!114 &205773847210766811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,5 +776,48 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: beb88cc142026174e918c7e8ca925262, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6395567262784951427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7497993554535878444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bff0fcbc37aaf547939e414a008c422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color: 2
+--- !u!114 &3441584042911696135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7497993554535878444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineWidth: 3
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &3640705715922511440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7497993554535878444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b41751a26b91bb498e349a350d439a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
