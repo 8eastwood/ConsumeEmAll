@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: mon_body yellow
+  m_Name: mon_body green
   m_Shader: {fileID: 4800000, guid: 7ffc1bc2bbb1ef64f84b552b2d2f0619, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -16,6 +16,7 @@ Material:
   - TCP2_REFLECTIONS_FRESNEL
   - TCP2_RIM_LIGHTING
   - TCP2_RIM_LIGHTING_LIGHTMASK
+  - _EMISSION
   m_InvalidKeywords:
   - TCP2_UV_NORMALS_FULL
   m_LightmapFlags: 4
@@ -33,7 +34,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 8833314730718ec4a820f61627e0eb5e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3610ae655f4072c499be79ac9be0e414, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -166,7 +167,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.468
     - _GlossyReflections: 1
-    - _IndirectIntensity: 0.3
+    - _IndirectIntensity: 0
     - _IndirectIntensityOutline: 0
     - _MatCapAccurate: 0
     - _MatCapMaskChannel: 0
@@ -217,7 +218,7 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _UseAlphaTest: 0
-    - _UseEmission: 0
+    - _UseEmission: 1
     - _UseFresnelReflections: 1
     - _UseMatCap: 0
     - _UseMatCapMask: 0
@@ -235,14 +236,14 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.26747254, g: 0.6544118, b: 0.14435552, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionColor: {r: 0.017510898, g: 0.016181812, b: 0.022097087, a: 1}
     - _Emission_color: {r: 0, g: 0, b: 0, a: 1}
-    - _HColor: {r: 1, g: 1, b: 0, a: 1}
+    - _HColor: {r: 0.22167933, g: 1, b: 0, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectColor: {r: 0, g: 0, b: 0, a: 0.5}
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RimColor: {r: 0.8867924, g: 0.69957656, b: 0.037646834, a: 0}
+    - _RimColor: {r: 0.28905955, g: 0.8862745, b: 0.039215703, a: 0}
     - _Rim_color: {r: 1, g: 0.97789043, b: 0.19852942, a: 1}
     - _SColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.20946932, g: 0.2205882, b: 0.10542818, a: 1}

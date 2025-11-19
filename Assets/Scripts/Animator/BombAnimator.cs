@@ -9,7 +9,7 @@ public class BombAnimator : MonoBehaviour
 
     public void PlayDefuseAnimation()
     {
-        _animator.SetBool(Idle, false);
+        // _animator.SetBool(Idle, false);
         _animator.SetTrigger(Defuse);
     }
 }

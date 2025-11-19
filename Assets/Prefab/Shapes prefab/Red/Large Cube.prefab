@@ -974,7 +974,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 320
+  m_VersionIndex: 323
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -995,6 +995,8 @@ GameObject:
   - component: {fileID: 850111548234123899}
   - component: {fileID: 629746204155440627}
   - component: {fileID: 7488391103413072540}
+  - component: {fileID: 1676599488139042280}
+  - component: {fileID: 7211581858321129171}
   m_Layer: 3
   m_Name: Large Cube
   m_TagString: Untagged
@@ -1080,6 +1082,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collisionHandler: {fileID: 532355968569932930}
   _colorIdentity: {fileID: 850111548234123899}
+  _shapeAnimator: {fileID: 1676599488139042280}
+  _maxUnitsToCollect: 4
 --- !u!114 &532355968569932930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1135,3 +1139,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b41751a26b91bb498e349a350d439a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1676599488139042280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3075369587873431443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ed30fab623af748b91968b82c0f032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 7211581858321129171}
+--- !u!95 &7211581858321129171
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3075369587873431443}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: aef2fbc743176ac4dac4b2ca45345d01, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

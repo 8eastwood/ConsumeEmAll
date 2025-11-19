@@ -1,9 +1,16 @@
 using UnityEngine;
 
+// [RequireComponent(typeof(ShapeAnimator))]
 public class Remover : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private CollisionHandler _collisionHandler;
     [SerializeField] private ColorIdentity _colorIdentity;
+    [SerializeField] private ShapeAnimator _shapeAnimator;
+    [Header("Settings")]
+    [SerializeField] private int _maxUnitsToCollect;
+
+    private int _collectedUnit;
 
     private void OnEnable()
     {
@@ -19,14 +26,24 @@ public class Remover : MonoBehaviour
     {
         ColorIdentity bombColor = bomb.GetComponent<ColorIdentity>();
         BombAnimator unitAnimator = bomb.GetComponent<BombAnimator>();
-        
+
         // Debug.Log(bombColor.Color);
 
         if (bombColor != null && bombColor.Color == _colorIdentity.Color)
         {
             unitAnimator.PlayDefuseAnimation();
-            // Debug.Log(bombColor.Color);
+            _collectedUnit++;
+            
+            if (_collectedUnit >= _maxUnitsToCollect)
+                PlayScaleDownAnimation();
+            
+            Debug.Log(_collectedUnit);
             // unit.Remove();
         }
+    }
+
+    private void PlayScaleDownAnimation()
+    {
+        _shapeAnimator.PlayScaleDownAnimation();
     }
 }
