@@ -11,6 +11,7 @@ public class FinishLevelTrigger : MonoBehaviour
     [SerializeField] private TimeRewardSystem _timeRewardSystem;
     [SerializeField] private GameOverAnimation _gameOverAnimation;
     [SerializeField] private EndLevelAnimation _endLevelAnimation;
+    [SerializeField] private SceneSwitcher _sceneSwitcher;
     [Header("Settings")] 
     [SerializeField] private Timer _timer;
 
@@ -20,20 +21,25 @@ public class FinishLevelTrigger : MonoBehaviour
         _gameOverScreen.RestartButtonClicked += OnRestartButtonClick;
         _timer.GameOver += OnGameOver;
         _bombScanner.NoBombLeft += OnLevelComplete;
-        _gameOverAnimation.OnAnimationComplete += StopGame;
-        _endLevelScreen.LevelCompleted +=  OnLevelComplete;
+        _gameOverAnimation.GameOverAnimationComplete += StopGame;
+        _endLevelScreen.ContinueButtonClicked +=  NextScene;
+        _endLevelAnimation.EndLevelAnimationComplete += StopGame;
     }
 
     private void Start()
+        
     {
         Time.timeScale = 1f;
     }
 
     private void OnDisable()
     {
+        _timer.GameOver -= OnGameOver;
         _gameOverScreen.RestartButtonClicked -= OnRestartButtonClick;
         _bombScanner.NoBombLeft -= OnLevelComplete;
-        _gameOverAnimation.OnAnimationComplete -= StopGame;
+        _gameOverAnimation.GameOverAnimationComplete -= StopGame;
+        _endLevelScreen.ContinueButtonClicked -=  NextScene;
+        _endLevelAnimation.EndLevelAnimationComplete -= StopGame;
     }
 
     private void OnRestartButtonClick()
@@ -55,5 +61,11 @@ public class FinishLevelTrigger : MonoBehaviour
     {
         _score.AddScore(_timeRewardSystem.CalculateReward());
         _score.SetScore();
+        _endLevelScreen.Open();
+    }
+
+    private void NextScene()
+    {
+        _sceneSwitcher.ChangeScene();
     }
 }

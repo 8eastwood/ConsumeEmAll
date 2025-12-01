@@ -3,12 +3,12 @@ using DG.Tweening;
 
 public class GameOverAnimation : Popup
 {
-    public event Action OnAnimationComplete;
+    public event Action GameOverAnimationComplete;
 
     public override void Show()
     {
         base.Show();
 
-        _animation.OnComplete(() => OnAnimationComplete?.Invoke());
+        _animation.OnComplete(() => GameOverAnimationComplete?.Invoke());
     }
 }

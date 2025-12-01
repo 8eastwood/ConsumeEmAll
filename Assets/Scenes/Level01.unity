@@ -347,6 +347,7 @@ GameObject:
   - component: {fileID: 175368111}
   - component: {fileID: 175368108}
   - component: {fileID: 175368112}
+  - component: {fileID: 175368113}
   m_Layer: 5
   m_Name: EndLevelScreen
   m_TagString: Untagged
@@ -440,8 +441,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _window: {fileID: 175368107}
   _alphaGroup: {fileID: 175368111}
-  _button: {fileID: 0}
-  _startPosition: {fileID: 0}
+  _button: {fileID: 1324879120}
+  _startPosition: {fileID: 100123207}
+--- !u!114 &175368113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175368106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 604fbbae71b34f6ba0eefada1c0e5f2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _windowGroup: {fileID: 175368111}
+  _button: {fileID: 1324879120}
+  _endLevelAnimation: {fileID: 175368112}
 --- !u!4 &177513889 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6178598869825395514, guid: 3f77448d95b72cd45b7b8d37f2374583, type: 3}
@@ -2854,9 +2870,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5322162270417477076}
     - target: {fileID: 3015963367436454514, guid: 7a38a330da57b5745be31c7a5b3059b3, type: 3}
+      propertyPath: _endLevelScreen
+      value: 
+      objectReference: {fileID: 175368113}
+    - target: {fileID: 3015963367436454514, guid: 7a38a330da57b5745be31c7a5b3059b3, type: 3}
       propertyPath: _gameOverScreen
       value: 
       objectReference: {fileID: 5322162270417477076}
+    - target: {fileID: 3015963367436454514, guid: 7a38a330da57b5745be31c7a5b3059b3, type: 3}
+      propertyPath: _endLevelAnimation
+      value: 
+      objectReference: {fileID: 175368112}
     - target: {fileID: 3015963367436454514, guid: 7a38a330da57b5745be31c7a5b3059b3, type: 3}
       propertyPath: _gameOverAnimation
       value: 

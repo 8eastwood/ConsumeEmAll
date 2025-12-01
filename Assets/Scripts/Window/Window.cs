@@ -4,19 +4,19 @@ using UnityEngine.UI;
 public abstract class Window : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _windowGroup;
-    [SerializeField] private Button _restartButton;
+    [SerializeField] private Button _button;
 
     protected CanvasGroup WindowGroup => _windowGroup;
-    protected Button RestartButton => _restartButton;
+    protected Button Button => _button;
 
     private void OnEnable()
     {
-        _restartButton.onClick.AddListener(OnButtonClick);
+        _button.onClick.AddListener(OnButtonClick);
     }
 
     private void OnDisable()
     {
-        _restartButton.onClick.RemoveListener(OnButtonClick);
+        _button.onClick.RemoveListener(OnButtonClick);
     }
 
     public abstract void Open();

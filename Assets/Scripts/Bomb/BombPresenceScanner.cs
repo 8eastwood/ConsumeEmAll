@@ -18,6 +18,7 @@ public class BombPresenceScanner : MonoBehaviour
 
         if (bombCount <= 0)
         {
+            CancelInvoke(nameof(CheckPresence));
             NoBombLeft?.Invoke();
         }
     }

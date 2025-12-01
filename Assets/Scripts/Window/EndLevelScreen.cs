@@ -5,7 +5,7 @@ public class EndLevelScreen : Window
 {
     [SerializeField] private EndLevelAnimation _endLevelAnimation;
     
-    public event Action LevelCompleted;
+    public event Action ContinueButtonClicked;
     
     // private void 
     public override void Open()
@@ -21,6 +21,6 @@ public class EndLevelScreen : Window
 
     protected override void OnButtonClick()
     {
-        LevelCompleted?.Invoke();
+        ContinueButtonClicked?.Invoke();
     }
 }
