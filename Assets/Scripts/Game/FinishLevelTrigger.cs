@@ -7,11 +7,12 @@ public class FinishLevelTrigger : MonoBehaviour
     [SerializeField] private Score _score;
     [SerializeField] private GameOverScreen _gameOverScreen;
     [SerializeField] private EndLevelScreen _endLevelScreen;
-    [SerializeField] private BombPresenceScanner _bombScanner;
+    // [SerializeField] private BombPresenceScanner _bombScanner;
     [SerializeField] private TimeRewardSystem _timeRewardSystem;
     [SerializeField] private GameOverAnimation _gameOverAnimation;
     [SerializeField] private EndLevelAnimation _endLevelAnimation;
     [SerializeField] private SceneSwitcher _sceneSwitcher;
+    [SerializeField] private VictoryConditionChecker _victoryConditionChecker;
     [Header("Settings")] 
     [SerializeField] private Timer _timer;
 
@@ -20,10 +21,11 @@ public class FinishLevelTrigger : MonoBehaviour
     {
         _gameOverScreen.RestartButtonClicked += OnRestartButtonClick;
         _timer.GameOver += OnGameOver;
-        _bombScanner.NoBombLeft += OnLevelComplete;
+        // _bombScanner.NoBombLeft += OnLevelComplete;
+        _victoryConditionChecker.LevelComplete += OnLevelComplete;
         _gameOverAnimation.GameOverAnimationComplete += StopGame;
-        _endLevelScreen.ContinueButtonClicked +=  NextScene;
         _endLevelAnimation.EndLevelAnimationComplete += StopGame;
+        _endLevelScreen.ContinueButtonClicked +=  NextScene;
     }
 
     private void Start()
@@ -36,7 +38,8 @@ public class FinishLevelTrigger : MonoBehaviour
     {
         _timer.GameOver -= OnGameOver;
         _gameOverScreen.RestartButtonClicked -= OnRestartButtonClick;
-        _bombScanner.NoBombLeft -= OnLevelComplete;
+        // _bombScanner.NoBombLeft -= OnLevelComplete;
+        _victoryConditionChecker.LevelComplete -= OnLevelComplete;
         _gameOverAnimation.GameOverAnimationComplete -= StopGame;
         _endLevelScreen.ContinueButtonClicked -=  NextScene;
         _endLevelAnimation.EndLevelAnimationComplete -= StopGame;

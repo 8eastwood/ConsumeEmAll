@@ -37,7 +37,7 @@ public class Remover : MonoBehaviour
             if (_collectedUnit >= _maxUnitsToCollect)
                 PlayScaleDownAnimation();
             
-            Debug.Log(_collectedUnit);
+            // Debug.Log(_collectedUnit);
             // unit.Remove();
         }
     }

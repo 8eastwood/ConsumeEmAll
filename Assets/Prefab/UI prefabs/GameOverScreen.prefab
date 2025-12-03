@@ -275,7 +275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7401327948712963705
 RectTransform:
   m_ObjectHideFlags: 0
@@ -294,10 +294,10 @@ RectTransform:
   - {fileID: 3133970449808503629}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.36123702, y: 0.5}
-  m_AnchorMax: {x: 0.6, y: 0.5}
-  m_AnchoredPosition: {x: 21.880997, y: 5.487}
-  m_SizeDelta: {x: 1128.443, y: 1069.026}
+  m_AnchorMin: {x: 0.4137052, y: 0.5306702}
+  m_AnchorMax: {x: 0.5836475, y: 0.5306702}
+  m_AnchoredPosition: {x: 3, y: -33}
+  m_SizeDelta: {x: 677, y: 850}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &9030219129962332104
 CanvasGroup:
@@ -339,7 +339,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ddfc347a7dd7c654990e03776aa3d1bb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c34e77ab17448c6469505916e0eb133a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _windowGroup: {fileID: 9030219129962332104}
-  _restartButton: {fileID: 2992989518413659677}
+  _button: {fileID: 2992989518413659677}
   _animation: {fileID: 6006166675876698388}
 --- !u!114 &6006166675876698388
 MonoBehaviour:
@@ -377,8 +377,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _window: {fileID: 7401327948712963705}
-  _windowAlpha: {fileID: 9030219129962332104}
-  _restartButton: {fileID: 2992989518413659677}
+  _alphaGroup: {fileID: 9030219129962332104}
+  _button: {fileID: 2992989518413659677}
   _startPosition: {fileID: 5529160104559351728}
 --- !u!1 &6718156291103701318
 GameObject:
@@ -412,7 +412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015259, y: 1577}
+  m_AnchoredPosition: {x: 0, y: 1600}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7073358313710304076

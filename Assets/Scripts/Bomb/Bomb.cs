@@ -8,6 +8,8 @@ public class Bomb : MonoBehaviour
 
     private Outline _outline;
 
+    public bool IsCollected = false;
+
     private void OnEnable()
     {
         _outline = GetComponent<Outline>();
@@ -17,7 +19,7 @@ public class Bomb : MonoBehaviour
     private void Update()
     {
         AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-        
+
         if (!stateInfo.IsName("Idle"))
         {
             _physicalCollider.enabled = false;
@@ -27,6 +29,11 @@ public class Bomb : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void ChangeCollectedState()
+    {
+        IsCollected = true;
     }
 
     public void SetOutlineOn()

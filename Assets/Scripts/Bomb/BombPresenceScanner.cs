@@ -7,19 +7,19 @@ public class BombPresenceScanner : MonoBehaviour
 
     public event Action NoBombLeft;
 
-    private void Start()
-    {
-        InvokeRepeating(nameof(CheckPresence), 0f, _checkInterval);
-    }
-
-    private void CheckPresence()
-    {
-        int bombCount = FindObjectsOfType<Bomb>().Length;
-
-        if (bombCount <= 0)
-        {
-            CancelInvoke(nameof(CheckPresence));
-            NoBombLeft?.Invoke();
-        }
-    }
+    // private void Start()
+    // {
+    //     InvokeRepeating(nameof(CheckPresence), 0f, _checkInterval);
+    // }
+    //
+    // private void CheckPresence()
+    // {
+    //     int bombCount = FindObjectsOfType<Bomb>().Length;
+    //
+    //     if (bombCount <= 0)
+    //     {
+    //         CancelInvoke(nameof(CheckPresence));
+    //         NoBombLeft?.Invoke();
+    //     }
+    // }
 }
