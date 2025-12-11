@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 // [RequireComponent(typeof(ShapeAnimator))]
 public class Remover : MonoBehaviour
@@ -35,6 +36,7 @@ public class Remover : MonoBehaviour
             _collectedUnit++;
             
             if (_collectedUnit >= _maxUnitsToCollect)
+                // this.transform.DOScale(0, .3f).SetEase(Ease.InBack);
                 PlayScaleDownAnimation();
             
             // Debug.Log(_collectedUnit);
@@ -44,6 +46,7 @@ public class Remover : MonoBehaviour
 
     private void PlayScaleDownAnimation()
     {
+        // _shapeAnimator.Append()
         _shapeAnimator.PlayScaleDownAnimation();
     }
 }

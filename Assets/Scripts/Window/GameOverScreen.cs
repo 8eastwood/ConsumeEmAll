@@ -21,5 +21,6 @@ public class GameOverScreen : Window
     protected override void OnButtonClick()
     {
         RestartButtonClicked?.Invoke();
+        Debug.Log("кнопка прожата");
     }
 }

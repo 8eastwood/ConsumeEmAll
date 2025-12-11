@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public abstract class Window : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup _windowGroup;
+    [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private Button _button;
 
-    protected CanvasGroup WindowGroup => _windowGroup;
+    protected CanvasGroup CanvasGroup => _canvasGroup;
     protected Button Button => _button;
 
     private void OnEnable()

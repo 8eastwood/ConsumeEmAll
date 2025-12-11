@@ -34,7 +34,7 @@ public class VictoryConditionChecker : MonoBehaviour
         {
             bomb.ChangeCollectedState();
             _value++;
-            Debug.Log(_value);
+            // Debug.Log(_value);
             CheckWinCondition(_value);
         }
     }

@@ -1,0 +1,3 @@
+﻿Build path: R:/Unity Projects/Builds/build_1
+Build number: 10
+PluginYG version: 2.007
