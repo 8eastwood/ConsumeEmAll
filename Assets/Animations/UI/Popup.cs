@@ -28,7 +28,6 @@ public abstract class Popup : MonoBehaviour
         if (_iconsToHide != null && _iconsToHide.Length > 0)
             HideIcons();
 
-
         _animation = DOTween.Sequence();
 
         _animation

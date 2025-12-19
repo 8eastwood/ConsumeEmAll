@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class AbilityTokensHandler : MonoBehaviour
 {
+    [SerializeField] private int _amountOfTokens;
     private int _tokens;
-    private int _amount = 1;
     public int Tokens => _tokens;
 
     private void Start()
     {
         AddTokens();
-        _amount -= 1;
     }
 
     public void RemoveToken()
@@ -19,6 +18,6 @@ public class AbilityTokensHandler : MonoBehaviour
 
     private void AddTokens() // реализовать входящее количество через магазин
     {
-        _tokens += _amount;
+        _tokens += _amountOfTokens;
     }
 }
