@@ -111,6 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 6151626819799537629}
   _physicalCollider: {fileID: 2081695672107570280}
+  _bombAnimator: {fileID: 2045293971515228409}
   IsCollected: 0
 --- !u!114 &5801049944705665474
 MonoBehaviour:
@@ -15130,7 +15131,6 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8a167f6ec39352540ab96a9ed7e9b9f6, type: 2}
   - {fileID: 2100000, guid: 8a167f6ec39352540ab96a9ed7e9b9f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -45477,7 +45477,6 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 87622ba435e91e141b2dff4e02563a78, type: 2}
   - {fileID: 2100000, guid: 87622ba435e91e141b2dff4e02563a78, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

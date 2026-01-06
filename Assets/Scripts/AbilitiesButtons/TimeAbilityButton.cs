@@ -11,7 +11,7 @@ public class TimeAbilityButton : ButtonListener
     
     public event Action ButtonClicked;
     
-    protected override void ClickOnButton()
+    protected override void OnClickButton()
     {
         Debug.Log($"Button clicked");
         OnButtonClick();

@@ -8,39 +8,59 @@ public class CutterAbilityButton : ButtonListener
     [SerializeField] private Camera _camera;
     [SerializeField] private LayerMask _bombMask;
 
-    private bool _isSelectingTarget = false;
+    [SerializeField] private TargetSelectionPanelUI _targetSelectionPanelUI;
+
+    // [SerializeField] private TargetSelector _targetSelector;
+    [SerializeField] private ScissorsAnimation _scissorsAnimation;
+
+    // private bool _isSelectingTarget = false;
+    private bool _isActive = false;
 
     public event Action<Bomb> BombTargeted;
 
+    // private void OnEnable()
+    // {
+    //     _targetSelector.BombTargeted += OnBombSelected;
+    // }
+    //
+    // private void OnDisable()
+    // {
+    //     _targetSelector.BombTargeted -= OnBombSelected;
+    // }
+
     private void Update()
     {
-        if (!_isSelectingTarget)
+        // if (!_targetSelector.IsSelectingTarget)
+        //     return;
+        
+        if (_isActive && Input.GetMouseButtonDown(0))
+        {
+            TrySelectTarget();
+        }
+    }
+
+    protected override void OnClickButton()
+    {
+        if (_tokensHandler.Tokens == 0)
+        {
             return;
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(TrySelectTarget());
         }
+
+        _targetSelectionPanelUI.gameObject.SetActive(true);
+        _targetSelectionPanelUI.ShowAbilityPanel();
+        // _targetSelector.BeginSelection(_camera, _bombMask);
+        // _isSelectingTarget = true;
+        _isActive = true;
     }
 
-    protected override void ClickOnButton()
-    {
-        // Debug.Log("had to pick a bomb for it's fuse to be cutted");
-        OnButtonClick();
-    }
+    // private void OnBombSelected(Bomb bomb)
+    // {
+    //     _targetSelectionPanelUI.HideAbilityPanel();
+    //     _tokensHandler.RemoveToken();
+    //     _scissorsAnimation.OnBombTargeted(bomb);
+    // }
 
-    private void OnButtonClick()
-    {
-        if (_tokensHandler.Tokens > 0)
-        {
-            _isSelectingTarget = true;
-            Debug.Log("selecting is ongoing");
-        }
-        else
-            Debug.Log("can't use ability rn - no tokens");
-    }
-
-    private IEnumerator TrySelectTarget()
+    private void TrySelectTarget()
     {
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -48,24 +68,14 @@ public class CutterAbilityButton : ButtonListener
         if (Physics.Raycast(ray, out hit, 1000f, _bombMask))
         {
             GameObject clickedObject = hit.collider.gameObject;
-            
+
             if (clickedObject.TryGetComponent(out Bomb bomb))
             {
-                Debug.Log("Bomb selected");
                 BombTargeted?.Invoke(bomb);
                 _tokensHandler.RemoveToken();
-                _isSelectingTarget = false;
-            }
-            else
-            {
-                Debug.Log("choose correct target");
+                // _isSelectingTarget = false;
+                _targetSelectionPanelUI.HideAbilityPanel();
             }
         }
-        else
-        {
-            Debug.Log("No valid target found");
-        }
-
-        yield return null;
     }
 }

@@ -1,18 +1,27 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Outline))]
+[RequireComponent(typeof(ColorIdentity))]
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] private Animator _animator;
     [SerializeField] private BoxCollider _physicalCollider;
+    [SerializeField] private BombAnimator _bombAnimator;
+    [SerializeField] private Animator _animator;
 
+    private ColorIdentity _colorIdentity;
     private Outline _outline;
 
     public bool IsCollected = false;
+    public ColorType Color => _colorIdentity.Color;
+
+    private void Awake()
+    {
+        _colorIdentity = GetComponent<ColorIdentity>();
+        _outline = GetComponent<Outline>();
+    }
 
     private void OnEnable()
     {
-        _outline = GetComponent<Outline>();
         // SetOutlineOn();
     }
 
@@ -29,6 +38,11 @@ public class Bomb : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void PlayDefuseAnimation()
+    {
+        _bombAnimator.PlayDefuseAnimation();
     }
 
     public void ChangeCollectedState()

@@ -2,13 +2,12 @@ using UnityEngine;
 using DG.Tweening;
 
 // [RequireComponent(typeof(ShapeAnimator))]
-public class Remover : MonoBehaviour
+public class BombDisarmer : MonoBehaviour
 {
     [Header("Components")] 
-    [SerializeField] private CollisionHandler _collisionHandler;
-
     [SerializeField] private ColorIdentity _colorIdentity;
     [SerializeField] private ShapeAnimator _shapeAnimator;
+    [SerializeField] private VictoryConditionChecker _victoryConditionChecker;
     [Header("Settings")]
     [SerializeField] private int _maxBombsToCollect;
 
@@ -18,23 +17,28 @@ public class Remover : MonoBehaviour
 
     private void OnEnable()
     {
-        _collisionHandler.UnitReached += TryCollectBomb;
         BombEvents.OnBombDestroyed += OnBombDestroyedByAbility;
-    }
-
-    private void Update()
-    {
     }
 
     private void OnDisable()
     {
-        _collisionHandler.UnitReached -= TryCollectBomb;
         BombEvents.OnBombDestroyed -= OnBombDestroyedByAbility;
     }
-
-    private void OnBombDestroyedByAbility(Bomb bomb, ColorType colorType)
+    
+    private void OnTriggerEnter(Collider collision)
     {
-        if (colorType == _colorIdentity.Color)
+        if (collision.TryGetComponent(out Bomb bomb))
+        {
+            if (bomb.IsCollected)
+                return;
+
+            TryCollectBomb(bomb);
+        }
+    }
+
+    private void OnBombDestroyedByAbility(Bomb bomb, ColorType bombColor)
+    {
+        if (bombColor == Color)
         {
             IncrementCollectedCount();
         }
@@ -43,22 +47,20 @@ public class Remover : MonoBehaviour
     private void TryCollectBomb(Bomb bomb)
     {
         ColorIdentity bombColor = bomb.GetComponent<ColorIdentity>();
-        BombAnimator unitAnimator = bomb.GetComponent<BombAnimator>();
 
         if (bombColor != null && bombColor.Color == _colorIdentity.Color)
         {
-            unitAnimator.PlayDefuseAnimation();
+            Debug.Log("collect");
+            bomb.ChangeCollectedState();
+            bomb.PlayDefuseAnimation();
             IncrementCollectedCount();
-
-            // Debug.Log(_collectedUnit);
-            // unit.Remove();
+            _victoryConditionChecker.ChangeCollectedValue();
         }
     }
 
     private void IncrementCollectedCount()
     {
         _collectedBombs++;
-        Debug.Log(_colorIdentity.Color + " have " + _collectedBombs);
 
         if (_collectedBombs >= _maxBombsToCollect)
             PlayScaleDownAnimation();
@@ -67,6 +69,5 @@ public class Remover : MonoBehaviour
     private void PlayScaleDownAnimation()
     {
         _shapeAnimator.PlayScaleDownAnimation();
-        // gameObject.SetActive(false);
     }
 }

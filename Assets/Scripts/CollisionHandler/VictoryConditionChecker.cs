@@ -3,40 +3,17 @@ using UnityEngine;
 
 public class VictoryConditionChecker : MonoBehaviour
 {
-    [Header("Components")] [SerializeField]
-    private CollisionHandler[] _collisionHandlers;
+    [Header("Values")] 
+    [SerializeField] private int _winValue;
 
-    [Header("Values")] [SerializeField] private int _winValue;
-
-    private int _value = 0;
+    private int _value;
 
     public event Action LevelComplete;
 
-    private void OnEnable()
+    public void ChangeCollectedValue()
     {
-        foreach (var collisionHandler in _collisionHandlers)
-        {
-            collisionHandler.UnitReached += OnBombCollected;
-        }
-    }
-
-    private void OnDisable()
-    {
-        foreach (var collisionHandler in _collisionHandlers)
-        {
-            collisionHandler.UnitReached -= OnBombCollected;
-        }
-    }
-
-    private void OnBombCollected(Bomb bomb)
-    {
-        if (bomb.IsCollected == false)
-        {
-            bomb.ChangeCollectedState();
-            _value++;
-            // Debug.Log(_value);
-            CheckWinCondition(_value);
-        }
+        _value++;
+        CheckWinCondition(_value);
     }
 
     private void CheckWinCondition(int value)

@@ -7,8 +7,13 @@ public abstract class ButtonListener : MonoBehaviour
     
     private void OnEnable()
     {
-        _button.onClick.AddListener(ClickOnButton);
+        _button.onClick.AddListener(OnClickButton);
     }
 
-    protected abstract void ClickOnButton();
+    private void OnDisable()
+    {
+        _button.onClick.RemoveListener(OnClickButton);
+    }
+
+    protected abstract void OnClickButton();
 }

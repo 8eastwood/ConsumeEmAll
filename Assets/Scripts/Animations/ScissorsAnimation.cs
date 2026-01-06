@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class ScissorsAnimation : MonoBehaviour
+public class ScissorsAnimation : MonoBehaviour, IAbilityAnimation
 {
     private const string LeftBladeName = "LeftBlade";
     private const string RightBladeName = "RightBlade";
@@ -22,20 +22,20 @@ public class ScissorsAnimation : MonoBehaviour
     private Transform _scissorsRightBlade;
     private Transform _scissorsLeftBlade;
     private Sequence _scissorsSequence;
-   
 
     private void OnEnable()
     {
         _cutterAbilityButton.BombTargeted += OnBombTargeted;
     }
-
+    
     private void OnDisable()
     {
         _cutterAbilityButton.BombTargeted -= OnBombTargeted;
     }
 
-    private void OnBombTargeted(Bomb bomb)
+    public void OnBombTargeted(Bomb bomb)
     {
+        Debug.Log("here");
         ScissorsInitialize();
 
         if (_scissorsSequence != null && _scissorsSequence.IsActive())
