@@ -9,8 +9,6 @@ public class TimeAbilityButton : ButtonListener
     [Space] 
     [SerializeField] private float _timeAmount;
     
-    public event Action ButtonClicked;
-    
     protected override void OnClickButton()
     {
         Debug.Log($"Button clicked");

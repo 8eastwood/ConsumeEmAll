@@ -1,12 +1,12 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class ScissorsAnimation : MonoBehaviour, IAbilityAnimation
+public class ScissorsAnimation : MonoBehaviour
 {
     private const string LeftBladeName = "LeftBlade";
     private const string RightBladeName = "RightBlade";
 
-    [SerializeField] private CutterAbilityButton _cutterAbilityButton;
+    [SerializeField] private CutterAbility _cutterAbility;
     [SerializeField] private GameObject _scissorsPrefab;
 
     private readonly float _scissorsPositionY = 0.7f;
@@ -15,7 +15,7 @@ public class ScissorsAnimation : MonoBehaviour, IAbilityAnimation
     private readonly float _scissorsScaleValue = 4f;
     private readonly float _scaleAnimationDuration = 0.25f;
     private readonly float _moveAnimationDuration = 0.5f;
-    private readonly float _scissorsBladeRotationX = -90;
+    private readonly float _scissorsBladeRotationX = -90f;
     
     private GameObject _scissorsInstance;
     private Transform _scissorsTransform;
@@ -25,17 +25,16 @@ public class ScissorsAnimation : MonoBehaviour, IAbilityAnimation
 
     private void OnEnable()
     {
-        _cutterAbilityButton.BombTargeted += OnBombTargeted;
+        _cutterAbility.BombTargeted += OnBombTargeted;
     }
     
     private void OnDisable()
     {
-        _cutterAbilityButton.BombTargeted -= OnBombTargeted;
+        _cutterAbility.BombTargeted -= OnBombTargeted;
     }
 
     public void OnBombTargeted(Bomb bomb)
     {
-        Debug.Log("here");
         ScissorsInitialize();
 
         if (_scissorsSequence != null && _scissorsSequence.IsActive())
