@@ -47,11 +47,14 @@ public class MagnetAbility : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 1000f, _shapeMask))
         {
             GameObject clickedObject = hit.collider.gameObject;
+            ColorIdentity shapeColor = clickedObject.GetComponent<ColorIdentity>();
 
-            if (clickedObject.TryGetComponent(out ColorIdentity shapeColor))
+            if (shapeColor!= null)
             {
                 // тут вместо метода запускаем корутину
                 // но может быть адаптирую через апдейт
+                
+                Debug.Log(shapeColor.Color);
 
                 StartCoroutine(ActivateMagnet(shapeColor));
                 _tokensHandler.RemoveToken();
@@ -66,28 +69,43 @@ public class MagnetAbility : MonoBehaviour
         ColorType targetColor = shapeColor.Color;
         
         int bombCount = Physics.OverlapSphereNonAlloc(
-            transform.position,
+            centerPosition,
             _radius,
             _collidersBuffer,
             _bombMask
         );
 
+        foreach (var colliders in _collidersBuffer)
+        {
+            Debug.Log(colliders.name);
+        }
+
         List<Bomb> bombsToPull = new List<Bomb>();
 
         for (int i = 0; i < bombCount; i++)
         {
+            Collider collider = _collidersBuffer[i];
+            
+            if (collider == null) continue;
+            
             if (_collidersBuffer[i].TryGetComponent(out Bomb bomb))
             {
                 if (bomb.Color == targetColor)
                 {
                     bombsToPull.Add(bomb);
+                    Debug.Log(bomb.name + " added to list");
                 }
             }
         }
 
         if (bombsToPull.Count > 0)
         {
-            yield return StartCoroutine(PullBombsCoroutine(bombsToPull, centerPosition));
+            // yield return StartCoroutine(PullBombsCoroutine(bombsToPull, centerPosition));
+            //тут должен происходить запуск анимации
+            
+            Debug.Log("animation will be started");
+            
+            yield return null;
         }
         else
         {
@@ -95,39 +113,55 @@ public class MagnetAbility : MonoBehaviour
         }
     }
 
-    private IEnumerator PullBombsCoroutine(List<Bomb> bombs, Vector3 targetPosition)
+    // private IEnumerator PullBombsCoroutine(List<Bomb> bombs, Vector3 targetPosition)
+    // {
+    //     Dictionary<Bomb, Vector3> startPositions = new Dictionary<Bomb, Vector3>();
+    //     
+    //     foreach (var bomb in bombs)
+    //     {
+    //         if(bomb!= null)
+    //             startPositions[bomb] = bomb.transform.position;
+    //     }
+    //
+    //     float elapsedTime = 0f;
+    //
+    //     while (elapsedTime < _pullAnimationDuration)
+    //     {
+    //         elapsedTime += Time.deltaTime;
+    //         float time = elapsedTime / _pullAnimationDuration;
+    //
+    //         for (int i = bombs.Count - 1; i >= 0; i--)
+    //         {
+    //             if(bombs[i] == null)
+    //                 bombs.RemoveAt(i);
+    //         }
+    //
+    //         foreach (var bomb in bombs)
+    //         {
+    //             if (bomb == null) continue;
+    //             
+    //             Vector3 startPosition = startPositions.ContainsKey(bomb) ?
+    //                 startPositions[bomb] : bomb.transform.position;
+    //             bomb.transform.position = Vector3.Lerp(startPosition, targetPosition, time);
+    //         }
+    //         
+    //         yield return null;
+    //     }
+    // }
+    
+    private void OnDrawGizmosSelected()
     {
-        Dictionary<Bomb, Vector3> startPositions = new Dictionary<Bomb, Vector3>();
-        
-        foreach (var bomb in bombs)
+        if (_abilityButton != null && _abilityButton.IsActive && Application.isPlaying)
         {
-            if(bomb!= null)
-                startPositions[bomb] = bomb.transform.position;
-        }
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < _pullAnimationDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float time = elapsedTime / _pullAnimationDuration;
-
-            for (int i = bombs.Count - 1; i >= 0; i--)
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, _shapeMask))
             {
-                if(bombs[i] == null)
-                    bombs.RemoveAt(i);
-            }
-
-            foreach (var bomb in bombs)
-            {
-                if (bomb == null) continue;
+                Gizmos.color = new Color(0, 1, 1, 0.3f); // Голубой с прозрачностью
+                Gizmos.DrawSphere(hit.point, _radius);
                 
-                Vector3 startPosition = startPositions.ContainsKey(bomb) ?
-                    startPositions[bomb] : bomb.transform.position;
-                bomb.transform.position = Vector3.Lerp(startPosition, targetPosition, time);
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawWireSphere(hit.point, _radius);
             }
-            
-            yield return null;
         }
     }
 }

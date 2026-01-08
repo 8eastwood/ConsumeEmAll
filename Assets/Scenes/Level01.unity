@@ -1253,7 +1253,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6267468640404566939, guid: 575cee6f25f9b9443a23bb8d2e36ed2f, type: 3}
   m_PrefabInstance: {fileID: 3183511306289184391}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1056781151
+--- !u!114 &1056781156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1262,20 +1262,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1010574095}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3566e3778a8b4d42becfdf9b9bf59023, type: 3}
+  m_Script: {fileID: 11500000, guid: d820c7fe78f1430b9a61c7d26c12f05d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1056781152 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9130467825918643814, guid: 575cee6f25f9b9443a23bb8d2e36ed2f, type: 3}
-  m_PrefabInstance: {fileID: 3183511306289184391}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1010574095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f7d06fd833b14a48a043b67fb4f620d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _targetSelectionPanelUI: {fileID: 1536118245}
+  _tokensHandler: {fileID: 1339866911}
+  _camera: {fileID: 790885573}
+  _bombMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!4 &1076287871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6307450388634468585, guid: 7a38a330da57b5745be31c7a5b3059b3, type: 3}
@@ -2527,7 +2522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5593bbc77de8d48a67823c73de537e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cutterAbilityButton: {fileID: 1056781152}
+  _cutterAbility: {fileID: 1056781156}
   _scissorsPrefab: {fileID: 1965869155179059664, guid: 8a38ded086eca0243b38e812c8950b3b, type: 3}
 --- !u!224 &1801350146 stripped
 RectTransform:
@@ -2834,6 +2829,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7509599087795021643, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
   m_PrefabInstance: {fileID: 6619652843107473059}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1935355587 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 124569700285471098, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
+  m_PrefabInstance: {fileID: 6619652843107473059}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935355584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2016132606
 GameObject:
   m_ObjectHideFlags: 0
@@ -3538,7 +3544,7 @@ PrefabInstance:
     - target: {fileID: 9130467825918643814, guid: 575cee6f25f9b9443a23bb8d2e36ed2f, type: 3}
       propertyPath: _targetSelector
       value: 
-      objectReference: {fileID: 1056781151}
+      objectReference: {fileID: 0}
     - target: {fileID: 9130467825918643814, guid: 575cee6f25f9b9443a23bb8d2e36ed2f, type: 3}
       propertyPath: _bombMask.m_Bits
       value: 128
@@ -3561,7 +3567,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4994188407910245694, guid: 575cee6f25f9b9443a23bb8d2e36ed2f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1056781151}
+      addedObject: {fileID: 1056781156}
   m_SourcePrefab: {fileID: 100100000, guid: 575cee6f25f9b9443a23bb8d2e36ed2f, type: 3}
 --- !u!1001 &4633512254533980784
 PrefabInstance:
@@ -4088,6 +4094,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4775855}
     m_Modifications:
+    - target: {fileID: 71912003504826353, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 790885573}
+    - target: {fileID: 71912003504826353, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
+      propertyPath: _radius
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 71912003504826353, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
+      propertyPath: _tokensHandler
+      value: 
+      objectReference: {fileID: 1339866911}
+    - target: {fileID: 71912003504826353, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
+      propertyPath: _bombMask.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 71912003504826353, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
+      propertyPath: _shapeMask.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 71912003504826353, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
+      propertyPath: _targetSelectionPanelUI
+      value: 
+      objectReference: {fileID: 1536118245}
     - target: {fileID: 552991073776547435, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4168,6 +4198,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6427583128475467895, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
+      propertyPath: _button
+      value: 
+      objectReference: {fileID: 1935355587}
+    - target: {fileID: 6427583128475467895, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
+      propertyPath: _tokensHandler
+      value: 
+      objectReference: {fileID: 1339866911}
+    - target: {fileID: 6427583128475467895, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
+      propertyPath: _targetSelectionPanelUI
+      value: 
+      objectReference: {fileID: 1536118245}
     - target: {fileID: 7509599087795021643, guid: 724c2554b0f5139479bc37cd616244fb, type: 3}
       propertyPath: m_Name
       value: MagnetAbilityButton
