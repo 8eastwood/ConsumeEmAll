@@ -15,7 +15,7 @@ public class MagnetAbility : MonoBehaviour
 
     private AbilityButton _abilityButton;
     private bool _isSelectingTarget = false;
-    
+
     private readonly Collider[] _collidersBuffer = new Collider[20];
 
 
@@ -49,16 +49,16 @@ public class MagnetAbility : MonoBehaviour
             GameObject clickedObject = hit.collider.gameObject;
             ColorIdentity shapeColor = clickedObject.GetComponent<ColorIdentity>();
 
-            if (shapeColor!= null)
+            if (shapeColor != null)
             {
                 // тут вместо метода запускаем корутину
                 // но может быть адаптирую через апдейт
-                
-                Debug.Log(shapeColor.Color);
+
+                // Debug.Log(shapeColor.Color);
 
                 StartCoroutine(ActivateMagnet(shapeColor));
                 _tokensHandler.RemoveToken();
-                _targetSelectionPanelUI.HideAbilityPanel();
+                _targetSelectionPanelUI.HideSelectionPanel();
             }
         }
     }
@@ -67,7 +67,7 @@ public class MagnetAbility : MonoBehaviour
     {
         Vector3 centerPosition = shapeColor.transform.position;
         ColorType targetColor = shapeColor.Color;
-        
+
         int bombCount = Physics.OverlapSphereNonAlloc(
             centerPosition,
             _radius,
@@ -75,36 +75,42 @@ public class MagnetAbility : MonoBehaviour
             _bombMask
         );
 
-        foreach (var colliders in _collidersBuffer)
-        {
-            Debug.Log(colliders.name);
-        }
-
         List<Bomb> bombsToPull = new List<Bomb>();
+        HashSet<Bomb> alreadyAdded = new HashSet<Bomb>();
 
         for (int i = 0; i < bombCount; i++)
         {
             Collider collider = _collidersBuffer[i];
-            
-            if (collider == null) continue;
-            
-            if (_collidersBuffer[i].TryGetComponent(out Bomb bomb))
+
+            if (collider == null)
+                continue;
+
+            Bomb bomb = collider.GetComponent<Bomb>();
+
+            if (bomb != null)
             {
-                if (bomb.Color == targetColor)
+                if (!alreadyAdded.Contains(bomb) && bomb.Color == targetColor)
                 {
                     bombsToPull.Add(bomb);
-                    Debug.Log(bomb.name + " added to list");
+                    alreadyAdded.Add(bomb);
                 }
             }
+            
+            Debug.Log(bombsToPull.Count);
+        }
+
+        foreach (var bomb in bombsToPull)
+        {
+            Debug.Log(bomb.name + bomb.transform.position);
         }
 
         if (bombsToPull.Count > 0)
         {
             // yield return StartCoroutine(PullBombsCoroutine(bombsToPull, centerPosition));
             //тут должен происходить запуск анимации
-            
+
             Debug.Log("animation will be started");
-            
+
             yield return null;
         }
         else
@@ -148,7 +154,7 @@ public class MagnetAbility : MonoBehaviour
     //         yield return null;
     //     }
     // }
-    
+
     private void OnDrawGizmosSelected()
     {
         if (_abilityButton != null && _abilityButton.IsActive && Application.isPlaying)
@@ -158,7 +164,7 @@ public class MagnetAbility : MonoBehaviour
             {
                 Gizmos.color = new Color(0, 1, 1, 0.3f); // Голубой с прозрачностью
                 Gizmos.DrawSphere(hit.point, _radius);
-                
+
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawWireSphere(hit.point, _radius);
             }

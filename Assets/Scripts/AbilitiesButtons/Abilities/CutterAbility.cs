@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+
 [RequireComponent(typeof(AbilityButton))]
 public class CutterAbility : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class CutterAbility : MonoBehaviour
     [SerializeField] private AbilityTokensHandler _tokensHandler;
     [SerializeField] private Camera _camera;
     [SerializeField] private LayerMask _bombMask;
-    
+
     private AbilityButton _abilityButton;
 
     public event Action<Bomb> BombTargeted;
@@ -33,7 +34,7 @@ public class CutterAbility : MonoBehaviour
         {
             return;
         }
-        
+
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -44,7 +45,7 @@ public class CutterAbility : MonoBehaviour
             if (clickedObject.TryGetComponent(out Bomb bomb))
             {
                 _tokensHandler.RemoveToken();
-                _targetSelectionPanelUI.HideAbilityPanel();
+                _targetSelectionPanelUI.HideSelectionPanel();
                 BombTargeted?.Invoke(bomb);
             }
         }

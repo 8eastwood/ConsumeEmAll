@@ -3,10 +3,10 @@ using DG.Tweening;
 
 public class TargetSelectionPanelUI : MonoBehaviour
 {
+    [SerializeField] protected GameObject[] _iconsToHide;
     [SerializeField] private RectTransform _startPosition;
     [SerializeField] private RectTransform _panel;
     [SerializeField] private CanvasGroup _alphaGroup;
-    [SerializeField] protected GameObject[] _iconsToHide;
 
     private Vector2 _targetBodyPosition;
     private Sequence _animation;
@@ -17,7 +17,7 @@ public class TargetSelectionPanelUI : MonoBehaviour
         _alphaGroup.alpha = 0;
     }
 
-    public void ShowAbilityPanel()
+    public void ShowSelectionPanel()
     {
         _animation = DOTween.Sequence();
 
@@ -29,7 +29,7 @@ public class TargetSelectionPanelUI : MonoBehaviour
             .Join(_panel.DOAnchorPos(_targetBodyPosition, .5f).From(_startPosition.anchoredPosition));
     }
 
-    public void HideAbilityPanel()
+    public void HideSelectionPanel()
     {
         _animation = DOTween.Sequence();
 

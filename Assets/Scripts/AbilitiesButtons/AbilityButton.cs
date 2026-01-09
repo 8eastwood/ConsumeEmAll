@@ -28,7 +28,7 @@ public class AbilityButton : ButtonListener
         }
 
         _targetSelectionPanelUI.gameObject.SetActive(true);
-        _targetSelectionPanelUI.ShowAbilityPanel();
+        _targetSelectionPanelUI.ShowSelectionPanel();
         ChangeState(true);
     }
 
