@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class MagnetAbility : MonoBehaviour
     private bool _isSelectingTarget = false;
 
     private readonly Collider[] _collidersBuffer = new Collider[20];
+
+    public event Action<Bomb, Vector3> BombScanned;
 
 
     private void Awake()
@@ -47,6 +50,7 @@ public class MagnetAbility : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 1000f, _shapeMask))
         {
             GameObject clickedObject = hit.collider.gameObject;
+            Vector3 shapePosition = hit.point;
             ColorIdentity shapeColor = clickedObject.GetComponent<ColorIdentity>();
 
             if (shapeColor != null)
@@ -56,14 +60,14 @@ public class MagnetAbility : MonoBehaviour
 
                 // Debug.Log(shapeColor.Color);
 
-                StartCoroutine(ActivateMagnet(shapeColor));
+                StartCoroutine(ActivateMagnet(shapeColor, shapePosition));
                 _tokensHandler.RemoveToken();
                 _targetSelectionPanelUI.HideSelectionPanel();
             }
         }
     }
 
-    private IEnumerator ActivateMagnet(ColorIdentity shapeColor)
+    private IEnumerator ActivateMagnet(ColorIdentity shapeColor, Vector3 shapePosition)
     {
         Vector3 centerPosition = shapeColor.transform.position;
         ColorType targetColor = shapeColor.Color;
@@ -95,21 +99,15 @@ public class MagnetAbility : MonoBehaviour
                     alreadyAdded.Add(bomb);
                 }
             }
-            
-            Debug.Log(bombsToPull.Count);
-        }
-
-        foreach (var bomb in bombsToPull)
-        {
-            Debug.Log(bomb.name + bomb.transform.position);
         }
 
         if (bombsToPull.Count > 0)
         {
-            // yield return StartCoroutine(PullBombsCoroutine(bombsToPull, centerPosition));
-            //тут должен происходить запуск анимации
-
-            Debug.Log("animation will be started");
+            foreach (Bomb bomb in bombsToPull)
+            {
+                BombScanned?.Invoke(bomb, shapePosition);
+                Debug.Log("animation will be started");
+            }
 
             yield return null;
         }
@@ -157,17 +155,7 @@ public class MagnetAbility : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (_abilityButton != null && _abilityButton.IsActive && Application.isPlaying)
-        {
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000f, _shapeMask))
-            {
-                Gizmos.color = new Color(0, 1, 1, 0.3f); // Голубой с прозрачностью
-                Gizmos.DrawSphere(hit.point, _radius);
-
-                Gizmos.color = Color.cyan;
-                Gizmos.DrawWireSphere(hit.point, _radius);
-            }
+        OnDrawGizmosSelected();
         }
     }
 }
