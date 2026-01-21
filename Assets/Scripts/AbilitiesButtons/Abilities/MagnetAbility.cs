@@ -6,11 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(AbilityButton))]
 public class MagnetAbility : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private Camera _camera;
     [SerializeField] private LayerMask _shapeMask;
     [SerializeField] private LayerMask _bombMask;
     [SerializeField] private TargetSelectionPanelUI _targetSelectionPanelUI;
-    [SerializeField] private AbilityTokensHandler _tokensHandler;
+    [SerializeField] private TimeTokens tokens;
+    [Header("Settings")]
     [SerializeField] private float _radius = 5f;
     [SerializeField] private float _pullAnimationDuration = .5f;
 
@@ -51,23 +53,22 @@ public class MagnetAbility : MonoBehaviour
         {
             GameObject clickedObject = hit.collider.gameObject;
             Vector3 shapePosition = hit.point;
+            int maxBombsToPull = clickedObject.GetComponent<BombDisarmer>().MaxBombsToCollect;
             ColorIdentity shapeColor = clickedObject.GetComponent<ColorIdentity>();
 
             if (shapeColor != null)
             {
                 // тут вместо метода запускаем корутину
-                // но может быть адаптирую через апдейт
+                // но может быть адаптирую через апдейт?
 
-                // Debug.Log(shapeColor.Color);
-
-                StartCoroutine(ActivateMagnet(shapeColor, shapePosition));
-                _tokensHandler.RemoveToken();
+                StartCoroutine(ActivateMagnet(shapeColor, shapePosition, maxBombsToPull));
+                tokens.RemoveToken();
                 _targetSelectionPanelUI.HideSelectionPanel();
             }
         }
     }
 
-    private IEnumerator ActivateMagnet(ColorIdentity shapeColor, Vector3 shapePosition)
+    private IEnumerator ActivateMagnet(ColorIdentity shapeColor, Vector3 shapePosition, int maxBombsToPull)
     {
         Vector3 centerPosition = shapeColor.transform.position;
         ColorType targetColor = shapeColor.Color;
@@ -84,6 +85,9 @@ public class MagnetAbility : MonoBehaviour
 
         for (int i = 0; i < bombCount; i++)
         {
+            if (bombsToPull.Count >= maxBombsToPull)
+                break;
+            
             Collider collider = _collidersBuffer[i];
 
             if (collider == null)
@@ -106,56 +110,9 @@ public class MagnetAbility : MonoBehaviour
             foreach (Bomb bomb in bombsToPull)
             {
                 BombScanned?.Invoke(bomb, shapePosition);
-                Debug.Log("animation will be started");
             }
 
             yield return null;
-        }
-        else
-        {
-            Debug.Log("No matching bombs found in radius");
-        }
-    }
-
-    // private IEnumerator PullBombsCoroutine(List<Bomb> bombs, Vector3 targetPosition)
-    // {
-    //     Dictionary<Bomb, Vector3> startPositions = new Dictionary<Bomb, Vector3>();
-    //     
-    //     foreach (var bomb in bombs)
-    //     {
-    //         if(bomb!= null)
-    //             startPositions[bomb] = bomb.transform.position;
-    //     }
-    //
-    //     float elapsedTime = 0f;
-    //
-    //     while (elapsedTime < _pullAnimationDuration)
-    //     {
-    //         elapsedTime += Time.deltaTime;
-    //         float time = elapsedTime / _pullAnimationDuration;
-    //
-    //         for (int i = bombs.Count - 1; i >= 0; i--)
-    //         {
-    //             if(bombs[i] == null)
-    //                 bombs.RemoveAt(i);
-    //         }
-    //
-    //         foreach (var bomb in bombs)
-    //         {
-    //             if (bomb == null) continue;
-    //             
-    //             Vector3 startPosition = startPositions.ContainsKey(bomb) ?
-    //                 startPositions[bomb] : bomb.transform.position;
-    //             bomb.transform.position = Vector3.Lerp(startPosition, targetPosition, time);
-    //         }
-    //         
-    //         yield return null;
-    //     }
-    // }
-
-    private void OnDrawGizmosSelected()
-    {
-        OnDrawGizmosSelected();
         }
     }
 }

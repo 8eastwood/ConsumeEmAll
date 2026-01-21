@@ -13,6 +13,8 @@ public class BombDisarmer : MonoBehaviour
 
     private int _collectedBombs;
 
+    public int MaxBombsToCollect => _maxBombsToCollect;
+
     public ColorType Color => _colorIdentity.Color;
 
     private void OnEnable()
@@ -50,7 +52,6 @@ public class BombDisarmer : MonoBehaviour
 
         if (bombColor != null && bombColor.Color == _colorIdentity.Color)
         {
-            Debug.Log("collect");
             bomb.ChangeCollectedState();
             bomb.PlayDefuseAnimation();
             IncrementCollectedCount();
