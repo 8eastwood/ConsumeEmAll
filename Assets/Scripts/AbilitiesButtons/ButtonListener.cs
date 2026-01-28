@@ -8,6 +8,7 @@ public abstract class ButtonListener : MonoBehaviour
     private void Start()
     {
         _button.onClick.AddListener(OnClickButton);
+        //kjhgfgfhjk
     }
 
     private void OnDestroy()
