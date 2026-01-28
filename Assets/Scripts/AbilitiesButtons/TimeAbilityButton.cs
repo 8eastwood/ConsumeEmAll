@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TimeAbilityButton : ButtonListener
 {
     [Header("Components")]
-    [SerializeField] private IAbilityTokenResource _tokenResource;
+    [SerializeField] private TimeTokenResource _tokenResource;
     [SerializeField] private Timer _timer;
     [Space] 
     [SerializeField] private float _timeAmount;
@@ -24,32 +24,27 @@ public class TimeAbilityButton : ButtonListener
 
     private void OnEnable()
     {
-        _tokenResource.AmountChanged += OnTimeTokensChanged;
+        _tokenResource.AmountChanged += OnTokensChanged;
     }
 
     private void OnDisable()
     {
-        _tokenResource.AmountChanged -= OnTimeTokensChanged;
+        _tokenResource.AmountChanged -= OnTokensChanged;
     }
     
     protected override void OnClickButton()
     {
-        Debug.Log($"Button clicked");
-        OnButtonClick();
-    }
-    
-    private void OnButtonClick()
-    {
-        if (_tokenResource.Tokens > 0)
+        Debug.Log("Button clicked");
+        
+        if (_tokenResource.TryConsume())
         {
             _timer.AddMoreTime(_timeAmount);
-            _tokenResource.RemoveToken();
         }
         else
             Debug.Log("can't use ability rn");
     }
 
-    private void OnTimeTokensChanged(int tokens)
+    private void OnTokensChanged(int tokens)
     {
         UpdateButtonVisual();
     }
@@ -59,7 +54,7 @@ public class TimeAbilityButton : ButtonListener
         if (_buttonImage == null)
             return;
 
-        if (_tokenResource.Tokens > 0)
+        if (_tokenResource.CurrentAmount > 0)
         {
             _buttonImage.sprite = _enabledSprite;
         }
