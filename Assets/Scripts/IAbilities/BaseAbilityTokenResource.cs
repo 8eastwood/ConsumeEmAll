@@ -8,7 +8,6 @@ public abstract class BaseAbilityTokenResource : MonoBehaviour, IAbilityTokenRes
     private int _currentAmount;
 
     public int CurrentAmount => _currentAmount;
-
     public event Action<int> AmountChanged;
 
     protected virtual void Start()
@@ -18,7 +17,6 @@ public abstract class BaseAbilityTokenResource : MonoBehaviour, IAbilityTokenRes
 
     public bool TryConsume()
     {
-        Debug.Log("tried to consume");
         if (_currentAmount > 0)
         {
             _currentAmount--;
@@ -32,8 +30,11 @@ public abstract class BaseAbilityTokenResource : MonoBehaviour, IAbilityTokenRes
 
     public void AddTokens(int amount)
     {
-        _currentAmount += amount;
-        OnAmountChanged();
+        if (amount > 0)
+        {
+            _currentAmount += amount;
+            OnAmountChanged();
+        }
     }
 
     public void ResetToInitial()

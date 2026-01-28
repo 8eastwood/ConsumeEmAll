@@ -1,55 +1,55 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class TimeAbilityButton : ButtonListener
 {
     [Header("Components")]
+    [SerializeField] private IAbilityTokenResource _tokenResource;
     [SerializeField] private Timer _timer;
-    [SerializeField] private TimeTokenResource _tokenResource;
+    [Space] 
+    [SerializeField] private float _timeAmount;
 
     [Header("UI Elements")]
     [SerializeField] private Image _buttonImage;
-
     [SerializeField] private Sprite _enabledSprite;
     [SerializeField] private Sprite _disabledSprite;
-
-    [Space]
-    [SerializeField] private float _timeAmount;
+    
 
     private void Awake()
     {
-        // if (_tokenResource == null)
-        // {
-        //     _tokenResource = GetComponent<IAbilityTokenResource>();
-        // }
-
         UpdateButtonVisual();
     }
 
     private void OnEnable()
     {
-        _tokenResource.AmountChanged += OnTokensChanged;
+        _tokenResource.AmountChanged += OnTimeTokensChanged;
     }
 
     private void OnDisable()
     {
-        _tokenResource.AmountChanged -= OnTokensChanged;
+        _tokenResource.AmountChanged -= OnTimeTokensChanged;
     }
-
+    
     protected override void OnClickButton()
     {
-        Debug.Log("Button clicked");
-
-        if (_tokenResource.TryConsume())
+        Debug.Log($"Button clicked");
+        OnButtonClick();
+    }
+    
+    private void OnButtonClick()
+    {
+        if (_tokenResource.Tokens > 0)
         {
             _timer.AddMoreTime(_timeAmount);
-            // _tokenResource.RemoveToken();
+            _tokenResource.RemoveToken();
         }
         else
             Debug.Log("can't use ability rn");
     }
 
-    private void OnTokensChanged(int tokens)
+    private void OnTimeTokensChanged(int tokens)
     {
         UpdateButtonVisual();
     }
@@ -59,9 +59,13 @@ public class TimeAbilityButton : ButtonListener
         if (_buttonImage == null)
             return;
 
-        if (_tokenResource.CurrentAmount > 0)
+        if (_tokenResource.Tokens > 0)
+        {
             _buttonImage.sprite = _enabledSprite;
+        }
         else
+        {
             _buttonImage.sprite = _disabledSprite;
+        }
     }
 }

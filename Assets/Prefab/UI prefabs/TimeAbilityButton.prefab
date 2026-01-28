@@ -134,9 +134,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _button: {fileID: 8659474344676243472}
+  _tokensHandler: {fileID: 0}
   _timer: {fileID: 0}
-  _tokenResource: {fileID: 0}
-  _buttonImage: {fileID: 840432803552277703}
-  _enabledSprite: {fileID: 21300000, guid: 7a6dda4f972fd2b429fc89d86ecd836e, type: 3}
-  _disabledSprite: {fileID: 21300000, guid: c2e43cb7cabb20f498ef7283b779a239, type: 3}
   _timeAmount: 10
