@@ -5,12 +5,12 @@ public abstract class ButtonListener : MonoBehaviour
 {
     [SerializeField] private Button _button;
     
-    private void Start()
+    private void OnEnable()
     {
         _button.onClick.AddListener(OnClickButton);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         _button.onClick.RemoveListener(OnClickButton);
     }
