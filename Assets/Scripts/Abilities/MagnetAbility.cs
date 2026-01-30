@@ -11,7 +11,7 @@ public class MagnetAbility : MonoBehaviour
     [SerializeField] private LayerMask _shapeMask;
     [SerializeField] private LayerMask _bombMask;
     [SerializeField] private TargetSelectionPanelUI _targetSelectionPanelUI;
-    [SerializeField] private TimeTokens tokens;
+    [SerializeField] private MagnetTokenResource _magnetTokenResource;
     [Header("Settings")]
     [SerializeField] private float _radius = 5f;
     [SerializeField] private float _pullAnimationDuration = .5f;
@@ -58,12 +58,11 @@ public class MagnetAbility : MonoBehaviour
 
             if (shapeColor != null)
             {
-                // тут вместо метода запускаем корутину
-                // но может быть адаптирую через апдейт?
-
-                StartCoroutine(ActivateMagnet(shapeColor, shapePosition, maxBombsToPull));
-                tokens.RemoveToken();
-                _targetSelectionPanelUI.HideSelectionPanel();
+                if (_magnetTokenResource.TryConsume())
+                {
+                    StartCoroutine(ActivateMagnet(shapeColor, shapePosition, maxBombsToPull));
+                    _targetSelectionPanelUI.HideSelectionPanel();
+                }
             }
         }
     }

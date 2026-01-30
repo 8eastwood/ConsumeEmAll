@@ -1,21 +1,12 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-public class TimeAbilityButton : ButtonListener
+public class CutterAbilityButton : MonoBehaviour
 {
-    [Header("Components")]
-    [SerializeField] private TimeTokenResource _tokenResource;
-    [SerializeField] private Timer _timer;
-    [Space] 
-    [SerializeField] private float _timeAmount;
-
-    [Header("UI Elements")]
+    [SerializeField] private CutterTokenResource _tokenResource;
     [SerializeField] private Image _buttonImage;
     [SerializeField] private Sprite _enabledSprite;
     [SerializeField] private Sprite _disabledSprite;
-    
 
     private void Awake()
     {
@@ -31,18 +22,6 @@ public class TimeAbilityButton : ButtonListener
     {
         _tokenResource.AmountChanged -= OnTokensChanged;
     }
-    
-    protected override void OnClickButton()
-    {
-        Debug.Log("Button clicked");
-        
-        if (_tokenResource.TryConsume())
-        {
-            _timer.AddMoreTime(_timeAmount);
-        }
-        else
-            Debug.Log("can't use ability rn");
-    }
 
     private void OnTokensChanged(int tokens)
     {
@@ -51,7 +30,7 @@ public class TimeAbilityButton : ButtonListener
 
     private void UpdateButtonVisual()
     {
-        if (_buttonImage == null)
+        if (_buttonImage == null || _tokenResource == null)
             return;
 
         if (_tokenResource.CurrentAmount > 0)

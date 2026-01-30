@@ -5,7 +5,7 @@ using UnityEngine;
 public class CutterAbility : MonoBehaviour
 {
     [SerializeField] private TargetSelectionPanelUI _targetSelectionPanelUI;
-    [SerializeField] private TimeTokens tokens;
+    [SerializeField] private CutterTokenResource _cutterTokenResource;
     [SerializeField] private Camera _camera;
     [SerializeField] private LayerMask _bombMask;
 
@@ -44,9 +44,11 @@ public class CutterAbility : MonoBehaviour
 
             if (clickedObject.TryGetComponent(out Bomb bomb))
             {
-                tokens.RemoveToken();
-                _targetSelectionPanelUI.HideSelectionPanel();
-                BombTargeted?.Invoke(bomb);
+                if (_cutterTokenResource.TryConsume())
+                {
+                    _targetSelectionPanelUI.HideSelectionPanel();
+                    BombTargeted?.Invoke(bomb);
+                }
             }
         }
     }

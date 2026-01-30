@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class AbilityButton : ButtonListener
 {
-    [SerializeField] private TimeTokens tokens;
+    [SerializeField] private BaseAbilityTokenResource _tokensResource;
     [SerializeField] private TargetSelectionPanelUI _targetSelectionPanelUI;
 
     private bool _isActive = false;
 
     public event Action StateChanged;
+    public event Action AbilityUsed;
     
     public bool IsActive => _isActive;
 
@@ -22,7 +23,7 @@ public class AbilityButton : ButtonListener
 
     protected override void OnClickButton()
     {
-        if (tokens.Tokens == 0)
+        if (_tokensResource.CurrentAmount == 0)
         {
             return;
         }
@@ -36,5 +37,10 @@ public class AbilityButton : ButtonListener
     {
         _isActive = value;
         StateChanged?.Invoke();
+
+        if (!value)
+        {
+            AbilityUsed?.Invoke();
+        }
     }
 }
